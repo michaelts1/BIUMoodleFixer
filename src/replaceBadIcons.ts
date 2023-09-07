@@ -12,6 +12,7 @@ const fixedIconsMap = {
 	'page'       : icons.page,
 	'mod_page'   : icons.page,
 	'videostream': icons.recording,
+	'scorm'      : icons.scorm,
 	// If you find the original icons for the above, please let me know!
 
 	'folder'  : ogIcons.folder,
