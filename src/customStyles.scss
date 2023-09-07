@@ -6,26 +6,31 @@
 	/* Also add a space afterwards */
 }
 
+/* List of courses in each semester */
+.block-fcl__list.collapsible {
+	padding-top: 2px !important;
+}
+
 /* LIs containing the links to the courses */
 .block-fcl__list__item--course {
 	margin-right: 10px !important;
 	padding: 1px 5px 1px 0 !important;
-}
 
-.block-fcl__list__item--course:not(:first-of-type) {
-	border-top: 1px solid #aaa !important;
-}
+	&:not(:first-of-type) {
+		border-top: 1px solid #aaa !important;
+	}
+	
+	/* The link to a course */
+	.block-fcl__list__link {
+		display: grid;
+		/* Grid: 24px for icon, min-content for course number and the rest for the course name */
+		grid-template: "a b c" 100% / 24px auto min-content;
+	}
 
-/* The link to a course */
-.block-fcl__list__item--course .block-fcl__list__link {
-	display: grid;
-	/* Grid: 24px for icon, min-content for course number and the rest for the course name */
-	grid-template: "a b c" 100% / 24px auto min-content;
-}
-
-/* Usually holds the course number in the link */
-.block-fcl__list__item--course .block-fcl__list__link::after {
-	content: none !important;
+	/* Usually holds the course number in the link */
+	.block-fcl__list__link::after {
+		content: none !important;
+	}
 }
 
 /* left-side-panel */
@@ -39,11 +44,6 @@
 	padding: 5px 10px 0 0 !important;
 }
 
-/* List of courses in each semester */
-.block-fcl__list.collapsible {
-	padding-top: 2px !important;
-}
-
 /* Fix egregious margins for paragraphs */
 p {
 	margin: 0 0 5px 0 !important;
@@ -52,26 +52,26 @@ p {
 /* The container of a forum post */
 .forumpost {
 	padding: 0 !important;
-}
 
-/* Header of a forum post. 'header.header' is to get a higher specificity than the built-in CSS */
-.forumpost header.header {
-	margin-bottom: 0px !important;
-	padding: 5px !important;
-}
+	/* Header of a forum post. 'header.header' is to get a higher specificity than the built-in CSS */
+	header.header {
+		margin-bottom: 0px !important;
+		padding: 5px !important;
+		
+		.mb-3 {
+			margin-bottom: 0 !important;
+		}
+	}
 
-.forumpost header.header .mb-3 {
-	margin-bottom: 0 !important;
-}
+	/* Padding to the right of a forum post */
+	.body-content-container .author-groups-container {
+		width: 20px !important;
+	}
 
-/* Padding to the right of a forum post */
-.forumpost .body-content-container .author-groups-container {
-	width: 20px !important;
-}
-
-/* 'Reply' and 'direct link' buttons */
-.forumpost .post-actions a {
-	padding: 0 0 2px 15px !important;
+	/* 'Reply' and 'direct link' buttons */
+	.post-actions a {
+		padding: 0 0 2px 15px !important;
+	}
 }
 
 /* An empty toolbar at the top of the screen */
@@ -95,19 +95,21 @@ p {
 	height: calc(100% - var(--header-height)) !important;
 }
 
-/* A sublist item in the right-side-bar */
-#course-index .courseindex-item-content .courseindex-item {
-	padding: 1px 0 !important;
-}
+#course-index {
+	/* A sublist item in the right-side-bar */
+	.courseindex-item-content .courseindex-item {
+		padding: 1px 0 !important;
+	}
 
-/* A sublist title in the right-side-bar */
-#course-index .courseindex-section-title .courseindex-item {
-	padding: 3px 2px !important;
-}
+	/* A sublist title in the right-side-bar */
+	.courseindex-section-title .courseindex-item {
+		padding: 3px 2px !important;
+	}
 
-/* A sublist container in the right-side-bar */
-#course-index .courseindex-section {
-	margin-bottom: 5px !important;
+	/* A sublist container in the right-side-bar */
+	.courseindex-section {
+		margin-bottom: 5px !important;
+	}
 }
 
 /* The container of an item in a 'course activity' list */
@@ -144,11 +146,12 @@ nav.navbar.fixed-top {
 */
 
 /* '#topofscroll' is to get a higher specificity than the built-in CSS */
-#topofscroll .activityiconcontainer.custom-icon {
-	background: none !important;
-}
+#topofscroll {
+	.activityiconcontainer.custom-icon {
+		background: none !important;
+	}
 
-/* '#topofscroll' is to get a higher specificity than the built-in CSS */
-#topofscroll .nofilter {
-	filter: none !important;
+	.nofilter {
+		filter: none !important;
+	}
 }
