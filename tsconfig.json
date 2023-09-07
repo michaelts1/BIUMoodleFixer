@@ -2,13 +2,15 @@
 	"files": [
 		"src/biuMoodleFixer.ts"
 	],
+	"include": [
+		"./declaration.d.ts"
+	],
 	"compilerOptions": {
 		"forceConsistentCasingInFileNames": true,
+		"moduleResolution": "Bundler",
 		"newLine": "LF",
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
-		"outDir": "dist",
-		"outFile": "dist/biuMoodleFixer.user.js",
 		"removeComments": false,
 		"skipLibCheck": true,
 		"strict": true,

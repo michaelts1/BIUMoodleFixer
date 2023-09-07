@@ -1,24 +1,25 @@
 {
-  "name": "biu-modle-fixer",
+  "name": "biu-moodle-fixer",
   "version": "1.0.0",
   "description": "Partially fixes the new Moodle design",
   "private": true,
   "main": "usercript.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "lint": "eslint . --fix"
+    "build": "node esbuild.js",
+    "lint": "eslint src --fix"
   },
   "author": "Michael Tsaban",
   "license": "MIT",
   "dependencies": {
-    "esbuild": "^0.19.2",
-    "typescript": "^5.2.2"
   },
   "devDependencies": {
     "@types/tampermonkey": "^4.20.2",
     "@typescript-eslint/eslint-plugin": "^6.6.0",
     "@typescript-eslint/parser": "^6.6.0",
-    "eslint": "^8.48.0"
+    "esbuild": "^0.19.2",
+    "esbuild-sass-plugin": "^2.15.0",
+    "eslint": "^8.48.0",
+    "typescript": "^5.2.2"
   }
 }
