@@ -1,0 +1,17 @@
+{
+	"files": [
+		"src/biuMoodleFixer.ts"
+	],
+	"compilerOptions": {
+		"forceConsistentCasingInFileNames": true,
+		"newLine": "LF",
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"outDir": "dist",
+		"outFile": "dist/biuMoodleFixer.user.js",
+		"removeComments": false,
+		"skipLibCheck": true,
+		"strict": true,
+		"target": "es2022",
+	},
+}
