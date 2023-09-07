@@ -1,36 +1,10 @@
-/* Custom class used by 'Shorten course names' */
-.text-overflow-ellipsis {
-	overflow: hidden;
-	white-space: pre;
-	text-overflow: "… ";
-	/* Also add a space afterwards */
-}
+/*
+	Helper classes for paddingMargin
+*/
 
 /* List of courses in each semester */
 .block-fcl__list.collapsible {
 	padding-top: 2px !important;
-}
-
-/* LIs containing the links to the courses */
-.block-fcl__list__item--course {
-	margin-right: 10px !important;
-	padding: 1px 5px 1px 0 !important;
-
-	&:not(:first-of-type) {
-		border-top: 1px solid #aaa !important;
-	}
-	
-	/* The link to a course */
-	.block-fcl__list__link {
-		display: grid;
-		/* Grid: 24px for icon, min-content for course number and the rest for the course name */
-		grid-template: "a b c" 100% / 24px auto min-content;
-	}
-
-	/* Usually holds the course number in the link */
-	.block-fcl__list__link::after {
-		content: none !important;
-	}
 }
 
 /* left-side-panel */
@@ -79,20 +53,17 @@ p {
 	display: none !important;
 }
 
-/* The container of a sidebar */
-.drawer {
-	--header-height: 30px;
-}
+$header-height: 30px;
 
 /* The header of a sidebar. Contains only the 'close' button */
 .drawerheader {
-	height: var(--header-height) !important;
+	height: $header-height !important;
 	padding-top: 5px !important;
 }
 
-/* The content of a sidebar. should be*/
+/* The content of a sidebar */
 .drawercontent {
-	height: calc(100% - var(--header-height)) !important;
+	height: calc(100% - $header-height) !important;
 }
 
 #course-index {
@@ -139,19 +110,4 @@ nav.navbar.fixed-top {
 /* '#topofscroll' is to get a higher specificity than the built-in CSS */
 #topofscroll #learnrpage {
 	padding-top: 2px !important;
-}
-
-/*
-	Replace bad icons - should only be enabled if the 'Replace bad icons' is also enabled
-*/
-
-/* '#topofscroll' is to get a higher specificity than the built-in CSS */
-#topofscroll {
-	.activityiconcontainer.custom-icon {
-		background: none !important;
-	}
-
-	.nofilter {
-		filter: none !important;
-	}
 }

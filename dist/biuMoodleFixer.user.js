@@ -5,11 +5,210 @@
 // @grant       GM_addStyle
 // @version     1.0
 // @author      Michael Tsaban
-// @description Partially fixes the new Moodle design. Created@9/6/2023
+// @description Partially fixes the new Moodle design.
 // ==/UserScript==
   
 "use strict";
 (() => {
+  // src/options.ts
+  /*!
+   *
+   *    ███████╗███████╗████████╗████████╗██╗███╗   ██╗ ██████╗ ███████╗
+   *    ██╔════╝██╔════╝╚══██╔══╝╚══██╔══╝██║████╗  ██║██╔════╝ ██╔════╝
+   *    ███████╗█████╗     ██║      ██║   ██║██╔██╗ ██║██║  ███╗███████╗
+   *    ╚════██║██╔══╝     ██║      ██║   ██║██║╚██╗██║██║   ██║╚════██║
+   *    ███████║███████╗   ██║      ██║   ██║██║ ╚████║╚██████╔╝███████║
+   *    ╚══════╝╚══════╝   ╚═╝      ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝
+   *
+   * Feel free to change these the boolean values below to turn on/off components of this userscript :)
+   */
+  var options = {
+    paddingMargin: true,
+    // Various fixes for improving space utilization
+    replaceBadIcons: true,
+    // Replaces the new, monotone icons with the old icons and other colorful icons
+    courseListRevamp: true
+    // Improves the course list in the left sidebar
+  };
+  /*!
+   *
+   *
+   * You should only touch the code below if you understand what you are doing :)
+   *
+   *
+   */
+
+  // src/utils.ts
+  var $m = document.querySelectorAll.bind(document);
+  var log = (...args) => {
+    console.log(`[BIU Moodle Fixer @ ${(/* @__PURE__ */ new Date()).toLocaleTimeString()}]:`, ...args);
+  };
+
+  // src/style/courseListRevamp.scss
+  var courseListRevamp_default = `@charset "UTF-8";
+/*
+	Helper classes for courseListRevamp
+*/
+.text-overflow-ellipsis {
+  overflow: hidden;
+  white-space: pre;
+  text-overflow: "\u2026 ";
+  /* Also add a space afterwards */
+}
+
+/* LIs containing the links to the courses */
+.block-fcl__list__item--course {
+  margin-right: 10px !important;
+  padding: 5px 10px 5px 0 !important;
+  /* A custom class that is being applied by \`paddingMargin\` (if its enabled) */
+  /* The link to a course */
+  /* Usually holds the course number in the link */
+}
+.block-fcl__list__item--course.biu-fixer-padding-margin-on {
+  padding: 3px 5px 3px 0 !important;
+}
+.block-fcl__list__item--course:not(:first-of-type) {
+  border-top: 1px solid #aaa !important;
+}
+.block-fcl__list__item--course .block-fcl__list__link {
+  display: grid;
+  /* Grid: 24px for icon, min-content for course number and the rest for the course name */
+  grid-template: "a b c" 100%/24px auto min-content;
+}
+.block-fcl__list__item--course .block-fcl__list__link::after {
+  content: none !important;
+}`;
+
+  // src/courseListRevamp.ts
+  function courseListRevamp() {
+    const courseLinks = $m(".block-fcl__list__item--course a");
+    for (const courseLink of courseLinks) {
+      const courseTextNode = courseLink.childNodes[2];
+      const spanCourseName = document.createElement("span");
+      spanCourseName.classList.add("text-overflow-ellipsis");
+      spanCourseName.textContent = (courseTextNode.textContent ?? "").replace(/[A-z].*/, " ").trim();
+      const spanCourseNumber = document.createElement("span");
+      spanCourseNumber.textContent = courseLink.title.substring(2) ?? "0";
+      courseLink.replaceChild(spanCourseName, courseTextNode);
+      courseLink.appendChild(spanCourseNumber);
+    }
+    GM_addStyle(courseListRevamp_default);
+    log("Course List Revamp applied");
+  }
+
+  // src/style/paddingMargin.scss
+  var paddingMargin_default = `/*
+	Helper classes for paddingMargin
+*/
+/* List of courses in each semester */
+.block-fcl__list.collapsible {
+  padding-top: 2px !important;
+}
+
+/* left-side-panel */
+.drawer.drawer-right {
+  max-width: 330px !important;
+  width: 330px !important;
+}
+
+/* Courses list */
+.block_filtered_course_list .card-body {
+  padding: 5px 10px 0 0 !important;
+}
+
+/* Fix egregious margins for paragraphs */
+p {
+  margin: 0 0 5px 0 !important;
+}
+
+/* The container of a forum post */
+.forumpost {
+  padding: 0 !important;
+  /* Header of a forum post. 'header.header' is to get a higher specificity than the built-in CSS */
+  /* Padding to the right of a forum post */
+  /* 'Reply' and 'direct link' buttons */
+}
+.forumpost header.header {
+  margin-bottom: 0px !important;
+  padding: 5px !important;
+}
+.forumpost header.header .mb-3 {
+  margin-bottom: 0 !important;
+}
+.forumpost .body-content-container .author-groups-container {
+  width: 20px !important;
+}
+.forumpost .post-actions a {
+  padding: 0 0 2px 15px !important;
+}
+
+/* An empty toolbar at the top of the screen */
+.headerbuttons {
+  display: none !important;
+}
+
+/* The header of a sidebar. Contains only the 'close' button */
+.drawerheader {
+  height: 30px !important;
+  padding-top: 5px !important;
+}
+
+/* The content of a sidebar */
+.drawercontent {
+  height: calc(100% - 30px) !important;
+}
+
+#course-index {
+  /* A sublist item in the right-side-bar */
+  /* A sublist title in the right-side-bar */
+  /* A sublist container in the right-side-bar */
+}
+#course-index .courseindex-item-content .courseindex-item {
+  padding: 1px 0 !important;
+}
+#course-index .courseindex-section-title .courseindex-item {
+  padding: 3px 2px !important;
+}
+#course-index .courseindex-section {
+  margin-bottom: 5px !important;
+}
+
+/* The container of an item in a 'course activity' list */
+.activity-wrapper {
+  padding: 0 !important;
+}
+
+/* An item in a 'course activity' list */
+.activity-item {
+  padding: 5px !important;
+}
+
+/*
+	Margins fix: top header can hide content
+*/
+nav.navbar.fixed-top {
+  position: sticky !important;
+}
+
+#page,
+#topofscroll,
+#learnrpage {
+  margin-top: 0 !important;
+}
+
+/* '#topofscroll' is to get a higher specificity than the built-in CSS */
+#topofscroll #learnrpage {
+  padding-top: 2px !important;
+}`;
+
+  // src/paddingMargin.ts
+  var PADDING_MARGIN_CLASSNAME = "biu-fixer-padding-margin-on";
+  function paddingMargin() {
+    $m(".block-fcl__list__item--course").forEach((el) => el.classList.add(PADDING_MARGIN_CLASSNAME));
+    GM_addStyle(paddingMargin_default);
+    log("PaddingMargin applied");
+  }
+
   // old icons - low res/archive-24.png
   var archive_24_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAEsElEQVR4AYWTA7DEShaGv046mXvH11rbtl1Y21bZXNvFLdfatm3z2fZ7V6NMku5zNpWuSmV9Ut+cZHDw/z1GVQHwXp5QcbsktcUH3vy+ldtfdctn7A53x4si91le4nYk2bjn5u/v//T7/Q4hAdD2CyGLYhMbX5Yk9jsARkRQ1f35PL9Arell1045+cpV3HTJESfLBaezJf42ykNe+0BudvMDsupZlQol1Fa0BhRFRTGRcetrw3tGkTnHGmMA0qi6FtdMWXz5Sjo3OkbdFbzzlHcW7vny+7Czs1MVz/m/YUBErfd+xZgIe+7555KspPTdgPmXrmQ8s9C3mLnhptvNuefz7svO9jbOe0xiUDXgpQLCzBAImwRowj7+wY/l9re4/dZ7n/aOZDi1lP0Y6w3Xb8242ZNuz+Zog+w0I79pgXpFRbD9DvEgQXwtL8ZGmNigEoq3O9hPvODDJHHyyNm1c7TTCZMPT+nfcp1htsLk7BuRRFn+5QQyxZdCcrseZi9Bc0VUcScFg7tuYEdpPQAKGsBu9MeUzpmjyYIid0zvUnDw0FuwYUfMrpygxw5BEWuQHohEuBsX6E3gRYlWY+K1hOJwiV1LUaeE0Bqbu5KidExmGd27dLjfC+/NoOhyesYN5H88wTiDV6kn9RUigq9RXOFZvVWf9FY9vDYe0I5IDJTiMbcz3Ptl92G7MrQoSkQU54VCfEWVvf8POJwKQmisSqDtwYVXX4UdWHnoqx/Mzu4OZe4Q57HjDv37blAcFyhB6xrRsIlKbXLcsyxPlnQ3es0G4aLGnrVxNne53Z1+tr+3R1bkhNMAYqEYKWUpiAFtNQjNQOrvCabwSCgeaFw22Pd+8J2o6uFkkpWoJqiBGBbXzzn59Y1QghNBNOjuQ66Q2oP+rYZsPmIbEWk1oAbA+nCWAaVOhOm8k7qwAh6p0DqLavNcIogFYgh1wnbtDjakljlqag+SYUr/juPaAzFaTx0kEsK91EXjrmVxnNHf7LdqtI4pIRrtjGptXrRqWb3bAK7PUEOjsYiGHMBEBtf2QJSmfHsDUJrmsWFy3YRrf34NPhP8v/4HQiPKwjG61YibP3q/kaiCdrQlAm2mw+Ue5xWNDaLUk4kxqIlQlbBVbGqJopWYqkGznTGGNE1IbNxqEDbAEAxORh1W93pkh0tiA0YEVDGhWy1l6iLK0jM7XDDcGgBKkqbceMMNN1xz9aXXdToJFpRGniADcScmnxVsP3ibMnPNVkrbg/CbIi8YV4Ps32GHOE24/PIrZ699zctf8Le//fkaABvHMWXpGv2kVHo7fXbvSdWkZHVMq6C27wHDdDolj3NW+l3OP+/C01e/6iXPOvusM37ceHD99Tewvb0F2sgEonR3e3RpF28hIWMMdhJRFgVXXH7l4rWvedlzq+I/ohXRXe5yZz73uc8zGAxIkrQiwVbEJiYiEIcc0PZ9RCdd4eqrrj59+cte9NQzz/jb9/mXMADj8Xjz05/+/Lf29g/uUFZ6qapRxWgwxoTNQMJzk42JosPDQ/eWt7z+LWf8/a9fA3pACcyBGbA0oQm2mrxXsaaqMWCBGIgA06IdCuC9L6pYACngQgOy0IT8H/jMwIsw1vY+AAAAAElFTkSuQmCC";
 
@@ -36,6 +235,9 @@
 
   // old icons - low res/gif-24.png
   var gif_24_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAFiElEQVR4AX2UA5D0TBqAn0462eHau2fbtm3bto3Cb+srnX2Fs20bn401BslMktalum6n5vimnnb3y4pwzgFgjH14yU3jWBZvvfitla/f5ItPblyvMW4yTNbT3LR78+j+lQf++k2PeN2vjLORo/yAocb31iEjGZ6MIvkNAGGtpVSymKb54QrV+uHuAd66+mr+vPMXbEeSdHIeZB/CNQ+8ihtcb5lWLwEHzu0pKHsPeKXWIQKhJydG7xAEYr8UQuAgrgXVeH/377x2/XkcCw8SN2skusfD9MO48u5XMTe3QLuXIgDH/xEB1jppjKkIESCPHDhCLa6zU9nhtasv4ETzAPWgSkqPh/BILr3HdczMzJIVfRz8f+sHcwYi7/jwO7Bwk4WZhXfPRkfrh2lUa+Qy4wGdR3DBra5lfm6eTGXIQGL9w4PbWCyOvcdBO+X7YQ3yFh++GULygKO7JxG6SkKfO7fuyTNGX0mXlLWzfyYgIC16NEZqaGMRAnp5Rr2cG2cw1hKLiOtPXB9bzr2XHgjGFutUx0aETSXJTsEDth7FuxbOJxvJ2Mw3aBW7dHWble5ZUpPQ0S0/X+udQ5GjbEHPdFhP1hGAG3jpQVolMCVpt+BhzYdz5Z33sWNb/OnYfuKogjKKMAjplBbX+l0KrRBCUBTwq9av+GnyPZ7WfAEVW/un1Y5hkWEQYLXlISMP5Mr7Xs70zDTb67tMNyaYaU6ijKY8g7G6nE+R64JaWOO36rd8LL2W0/kJgkjwqsbbqLgahgTtNAMFh350lkk5YS991IXMz8+Tq5xCF7RKayeyHpnpMyJGaJfzWlwldJLj+TEuPX4hSbyL01WCoEJLdtjXupgHRo/i+pUbDYIUPPjQg3i8fvyPFhYWyIrcuxiIkNG4wf70b7zz0Fv5e+9vTFTGGS9ZVStcfOJCtnstVN/xpMmn86rl16NszudaH2UtXyF0Ifh4CeQn932E8tHtTqevHDZyBARC0FZtrjx2Dau9Va5IruL1N3wjNtKc/7cLWc3WUZnlifOP43lLL0C5wpew2BjFVUOGi1kaY73V4AZJss7SiJo8evaxfHj/J9jOEi5vX0utWmElXcdYwcMWHs5rbvoaerrvzzugvykxi+Cw7GmQ4GW4Anxikzzlidd/LK1ul88f/BI7rstu2qVQlofd8IE844ZPpVsk9FUGApRWdDZydGH8W4MyBWCofq11xGHMeK1Jo1rntXd5KdWwxkd/+xkoHI++xSN4+71fy1Z3h7HyTFVXQDgoBI9YfgSTI1NoqwdJHijYCxECcp2X1rapRTWMNTzl5o/l5Po5FIaX3P45tMq97WSHKJTecu0MmICLHvRekiL19+E/QzT4eQkEMpRIKXHaeQtfeOenMT82W172CfV75RnvtXACoxyp6nuDhBDEcUQkwyEFQ0kORUAtiqjHFVQQEAaSOAyoRDEC56usn0c0yv1CBzgBfaVwzhLFMZsbGxsr506sjYxESPjPCqrIKmNyEleECBvjhKAmxtCZAxNiEVQZpeg5ssIw1Rjj5stL5b0ap06fSV7x8hc9+09/+v0KgAzDEKX04F+ujWGyNsm9bjCNsXawDsK77w2xFhDemCRJ6addmgtjHDpypP2ylz7/qX//21++P8jB+voGs7Mz4IbDZNHODB73n/XjAbZEIFCmQMiQ02fP9F7x8hc+o3z8ewxJcOtb34rPfe7zNJtNoiguiZAlUST92CP9Gh7pIfK9pFars3Jupf2iFz73CX/9y5++zb+JABgfH5/+9Kc//7WFxaWbqzJepYXCOUq8O2LPM+vnbtALEQTb29v6gx98zwf/8uc/fgmoAwpIgQTIBFCCLC2tl0yUj4aABEIgAMQQw+IAjDFFKT0gBjSggL5XAvk/AGmNZfRPzsApAAAAAElFTkSuQmCC";
+
+  // old icons - low res/glossary.png
+  var glossary_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAT+SURBVEhLdVbLax1VGP/mzsx9TO7L9JWGFJP0YSilVsSF3aVQg6Ar/wI3unclEVHcKKKYteBCBUFwqVSqC3cqVqGtpW2stWmbNrk3ucl9zPs8/H1n5uZegn6Tb86Z7/0658YiwOeX7y9Vnji04trWKcexCkzT/BrC+IfRGAPwhFCqH9HNU0et5Wjt58uLi4tRzs3EP710f2l6+tDK/FThlAsHiolsdGhsv4MxXpJoWm8JvfpYbh70rO+jSP6wvtG+54b3brz5+sWuiRYxmLcFpVBq8oWiQAJ5BfpMy9HQhjysnUDS9X8Sq+eLIw93xYvtUL9Tqh58q1CdPc02cwcICmErRMYIPYL+HkoQh7hHYznJ8hq6guZni9bx+dLhJ2fd415Fz4o0rbFd40AgAZXXgd8ZWjnm33iN05XmFQ+IUkna7Wl63FJWp6OtVIhCwZKmiKMMjDC/c2N7CEO87qMzIXOGzJDKINI0CDT1gAmnSEgPMHJgFHjNnWRUg+OGmZtRs2/eKCmo3010IigKAuWLRMAN0gIYB2Y31NpbIAIL3I//gqG4bRNN1mydBoPYiTqror99SYv0R5fENstlGaAH3GRjONfk6IJIUWsrJVRpz2AWdZYHb72KQ88/PUkn5mq982fbq+ef/farcuWjz7T19SrYoxIZaV7yVSL0zVZMv1/bpQCjaAA8ZitMk8IYKQRVwGxPVFxL0M6B650Pn1uLPl6emLr89sSRXxdYJXcgYRgRsQEo8BqnmjbbIfVwRNc3AkPjaqWg+2joTk9S35fZmCLFou3ZT808c+zc3MvnGpWFc1LXJtly5sDMM0eXTUWK6MNQUq3qkFcmevQogENljN1fD+EworsPQrpytUu9AYKDCa0ldZNrBbwdS5cdSovG9qhEDHk0HGV/kNLhQ2WaPupRezui7U4MAYv6/ZjiKKWyg/60BihfalQl6tX3Y+r5HYpxfQhRMnTjgC8KkyqayZlEsTTlaQG5zinmeu3BwNR+asozxuJEok/CyHMKQkitxaTsDgIRxolIhcucfRkAwEPdE5qfqwEbdPJEg5pNF9MUUmc3plu3dyiOBXmejQZz0lxUrZG1vHO3v/bb9b+vPN7qXBNJ3Gd7Iwd8YhGO7wtqb0UkhcaMo3ko5dRhD72wMVWhiXynG5vS1OsuSpkgQ0nVUrOzdPyNPy40X/lgatN9zw7rf7JZxxjnc2Aei6rVIs3PN6joFkzZCghhbrZOx2aq2FumRBx1ueTQDGg1nAMLQtLvNStXv1yY7f7y6hnbu71T9L+A5ZujDLjYANvBXE+45MIBN9XC2JYRPTv2PIca9SI1GyWqwHCzXqJyxYVjnAat3IlicrI6UbwIxRdE7E+zvbEe5Fu0hk81G0eg/4O4TVFOFhvSLBDtrYelwqDvqUR5ItamOiMHsGqEeTv+5AZ4WhgzGX7yPV5mj7tN9bokO21SYWx+AhiMA74IMsVsZciUM5qJ1DzZ9zhviErymAqtBzta4qhLPjaALAPMMwvxLwT/bHLdeeV7xqyg7+EYj8cUf+xNC2mpR73KxsO2fScYyHsqFgGzMge4cuHbhFJ1CtRwLWpgPOtFrGg274dY38erYig0GmJVmxvFC699p8++9G5LV9/vknebTZsAPvnmryW3cnClVNL4r4IHcx9wekMwGjmYtLnhSu0O1I3TB5LlmeTWT2cWFweZANG/vqtL7+iIB4gAAAAASUVORK5CYII=";
 
   // old icons - low res/image-24.png
   var image_24_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAEjUlEQVR4AY2VA8w2yx3FfzOzePbha9S2zbCI6qhxoxpB7Ti1bfv6BrVtW6+t9cz8u/tt0ufDxXeS3+AkOWe9SkQAwqqyL7TW3hMUNyYRoZtBaAeA6bqdxQthFP590I/fCJTKe4+I3DJNy/82s7qccBBEOk+6NcjUQ8Hc7OieWqs/BK3REAEujsMgCAytd9OaFl0gpSiLirO0wDmfKDQBnaSlaeQz1/yQw5McEfAI0o6+HUHEd55vkNbzGCV47/C2Zn4y4hlPfey0XUHARYp6EWv/3MELXYh4pMF6jz+3d4g7V9D5dUbroQMWlxYAwYsggHBDBWFAP+nRFXjEd+G+wbVHiunOyNe0XqACREc4gdAoBKa6oYIkjpkME5wIIg7nfIPrwr1B2lCp8e211ppaG4osIzCaJDLQ3VPouLRgmITMTfo4L3jpwutzBRZvLe1eY9ChJ9vaQpRmNOiB1iitEGgLbvgMWn807LE8N/p/uHUW2xY0c21rrHeM0l029rYIqJkZjKhcWyxImYHcYMHUXBwZJuIpxZD5HlUbbusuvDaIqxnGPYzMolLL3uEJxzv7GOVRt1kEuPAmi8C0EMaDgEif0R5xZUakfkRtNbbWOKvwVkM5Royj+ue/SEaae9zydoS+5va3mkxfPARQF5+BEMYhKrkDkWQNQs8ZvKNBcA5cbdFpwWJ5wOp4n6OsxtqQSDvm1QQExHu6OJgW0EmbmjD0QARYDDniCihSxBYUf/ku1cEOUkMS95gJU9b+c8ThfkmYrDK+L114N0wLkM47+NN3SeIdwiQk6imMrlCzGthHnW7Sl3+TNH5ZWcSV6O0U//eAzbqPyUtuhdz0Tf79H37M2q+/yGnm6YUKVQrJ0BAYjRZDnjrsMZylmlBrXFmzfWIJh5pxfh9EuLE3uTOXg4rx2JNqoRcHhN7TX+4RRAbjPRTtkSvyE0EHHtlX/OWvIVkSsxpHIAI3fAbdcLv7Pprhg28PWkBqcCVEDrI9ONuFP/4elIFbDkkPMoqTDDsfceWGpl7z3B6wzuGdN2Lk0kvE4n2Q+C7U5RlUGTY/Ij1KSYtbkuYFC8NVfvvTn/GXnYzPfus//HP9kDBQbOfC02/1AJ7oHBvr60f7u2v5Ix/5CAIQWoROb3/Hx9AqY3FhluGgz3hunuXlJcqyoCgKjmcfwfGdVvjtP77DidpHho65W92Or33hCoyJ+Pd/1uXHP/ruS1796lf+wzlLYIyhri0iXcl//73BV664CgWgYHZ+wh3ueAfiOCaMomYOmUkC+uMZHv3Q+7O5f8RDHvV4hqN5dnd3ue6aK17QhH8Q4KlPfSqNudeG325757BK00JaOedvAHeD2IYvfekK+ds/1uXlL3/ls7hIwX3uc2/e+ta3qyc+6WlhmqakWTn9316E72bEd2salNJsbu/VH3vhc1907TVXvo+LpFqSJFm48qrrrl9ZWb19XdcKQQmiumDUpWXTn/vuzm7++te94l2//vWvPg4kQAXkwFk7K6Al0FoPm6IZEQmAFgNoQF0EgEBHc0Atp0AAWKDuCsiA4n9jvWWHCssHsQAAAABJRU5ErkJggg==";
@@ -72,9 +274,6 @@
 
   // old icons - low res/text-24.png
   var text_24_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAEJElEQVR4AW2UA5A3ORDFf8lk/lh/WJ5tlc62bdsunO9KZ9tm6WwWz7b5mWvMJH3/qa6pfOqtt53q7Pbr9yaJEREAvA+7NLB6peImrrrm3Fr/lEcPmNrT1jE2Jn5kfITmsE66Uvv+Hx+7x4UfefEpCALEX5qD4FKX/JWm7jUAE0JARPqGh8d/cabePLP/e1749lh+mfYDA4OGhYMjrNa6Heft/QQrrbA8AyNDICBSEoiuRSklCMaafPKkto2sNT84YwxApZLUKzMWfMMrPx5Kf/YnHa11sryflZp34JSdHqO7u5fBRnMT5112GAhBnPe+ZozF/fzjb1QrzfjqbF754XCy5G86WlroN0OsJXtw2GaP0NXZyXg2jjUOKS0xYEoVRlAxeQOFI5HPbb3jeqy0Wlfn3ue2pmPmDya1t5DLCC3Z+uyyycXU2oeYMzwHtUWtKXPQteYQqKdTSW0zSIgEZ97eiU38tv/N/ZtapUpgIT12a3Zb/2Ymd7Y1Jh9Blm6uBCH67iVQEkaA7e5qorWlboaHE+YuHKBldDt2We+6RvN2smwCxKIwFFnEKMp1MGVWlegPKFw+IUxMBPqHBtmgcxeO2PJeWjqK2jjC0lNLgFAqKOpBrQqakaAEZVhjDbmfYM2OHTh5l8YH7eohy3MgAVkagi3Xqoi4J6VlIpHgg4/+5NdfJZyxx4P09vQyPjHGsj1HESiyTq8K4l5URGmSa/7vCFZba8UPenvL5oFCEWWTeFKIFpV2RJt88NScRxL9O2UzuEfvfqwozBsYGM0Q0hByRicWlBMSQnliWMJr3StruS8I2qm4Fu2NhvM+KCM6DVhS2xanN+ikRrRmtaHmSOatx5pEL1qIDE6TTgs6be6zqECt0KyKYm0Ji3zQYQuAIhLEDwk4jFaxFNOD0X/CgNaKPSOAqtM3zai6+JEjASgBGCAh1kq5JXvMpXRDAS1FBUtbhFBIDnjvSzXxUoUlL1lpndYLe/TpD+jznJK6hEhQKhCDNY6gRaIdaoUFBGWXwhr0w2MMBkuaVpg9e9bs6dP+nFmtpjiQaE+cdtkK4uTlHnmWU6k4WppaaWtg9sw5Q6eecvwRX331+XQAlyQJWZaj3qnUsUxv85KnJ76iWgcYHByivdrB2iuvzo8//9R/0olHH/T9d9+8iwZm5sxZdHV1rjx37sAvPvgUDMSnQsGSD13hNSjBIHk+QeLcyDFHH3bAt9989SYxsOuuuw7PPvscra2thX8450hc0oAtsiJJsAWKWlKgqOm6Vq8xbdq0/uOPO2rf2DyGAejo6Jj61FPPvdLbt9yaWcMvETEiNCBQrImeF4syG2PtvHnz8quuuvSqb77+8gWgGciAYWAIGDNKgkvTtLmBSSKSAA4osgVMRAxAALz3E40YASpArgSMKgnj/wPVLbMxJpf9iAAAAABJRU5ErkJggg==";
-
-  // old icons - low res/glossary.png
-  var glossary_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8YQUAAAAJcEhZcwAADsMAAA7DAcdvqGQAAAT+SURBVEhLdVbLax1VGP/mzsx9TO7L9JWGFJP0YSilVsSF3aVQg6Ar/wI3unclEVHcKKKYteBCBUFwqVSqC3cqVqGtpW2stWmbNrk3ucl9zPs8/H1n5uZegn6Tb86Z7/0658YiwOeX7y9Vnji04trWKcexCkzT/BrC+IfRGAPwhFCqH9HNU0et5Wjt58uLi4tRzs3EP710f2l6+tDK/FThlAsHiolsdGhsv4MxXpJoWm8JvfpYbh70rO+jSP6wvtG+54b3brz5+sWuiRYxmLcFpVBq8oWiQAJ5BfpMy9HQhjysnUDS9X8Sq+eLIw93xYvtUL9Tqh58q1CdPc02cwcICmErRMYIPYL+HkoQh7hHYznJ8hq6guZni9bx+dLhJ2fd415Fz4o0rbFd40AgAZXXgd8ZWjnm33iN05XmFQ+IUkna7Wl63FJWp6OtVIhCwZKmiKMMjDC/c2N7CEO87qMzIXOGzJDKINI0CDT1gAmnSEgPMHJgFHjNnWRUg+OGmZtRs2/eKCmo3010IigKAuWLRMAN0gIYB2Y31NpbIAIL3I//gqG4bRNN1mydBoPYiTqror99SYv0R5fENstlGaAH3GRjONfk6IJIUWsrJVRpz2AWdZYHb72KQ88/PUkn5mq982fbq+ef/farcuWjz7T19SrYoxIZaV7yVSL0zVZMv1/bpQCjaAA8ZitMk8IYKQRVwGxPVFxL0M6B650Pn1uLPl6emLr89sSRXxdYJXcgYRgRsQEo8BqnmjbbIfVwRNc3AkPjaqWg+2joTk9S35fZmCLFou3ZT808c+zc3MvnGpWFc1LXJtly5sDMM0eXTUWK6MNQUq3qkFcmevQogENljN1fD+EworsPQrpytUu9AYKDCa0ldZNrBbwdS5cdSovG9qhEDHk0HGV/kNLhQ2WaPupRezui7U4MAYv6/ZjiKKWyg/60BihfalQl6tX3Y+r5HYpxfQhRMnTjgC8KkyqayZlEsTTlaQG5zinmeu3BwNR+asozxuJEok/CyHMKQkitxaTsDgIRxolIhcucfRkAwEPdE5qfqwEbdPJEg5pNF9MUUmc3plu3dyiOBXmejQZz0lxUrZG1vHO3v/bb9b+vPN7qXBNJ3Gd7Iwd8YhGO7wtqb0UkhcaMo3ko5dRhD72wMVWhiXynG5vS1OsuSpkgQ0nVUrOzdPyNPy40X/lgatN9zw7rf7JZxxjnc2Aei6rVIs3PN6joFkzZCghhbrZOx2aq2FumRBx1ueTQDGg1nAMLQtLvNStXv1yY7f7y6hnbu71T9L+A5ZujDLjYANvBXE+45MIBN9XC2JYRPTv2PIca9SI1GyWqwHCzXqJyxYVjnAat3IlicrI6UbwIxRdE7E+zvbEe5Fu0hk81G0eg/4O4TVFOFhvSLBDtrYelwqDvqUR5ItamOiMHsGqEeTv+5AZ4WhgzGX7yPV5mj7tN9bokO21SYWx+AhiMA74IMsVsZciUM5qJ1DzZ9zhviErymAqtBzta4qhLPjaALAPMMwvxLwT/bHLdeeV7xqyg7+EYj8cUf+xNC2mpR73KxsO2fScYyHsqFgGzMge4cuHbhFJ1CtRwLWpgPOtFrGg274dY38erYig0GmJVmxvFC699p8++9G5LV9/vknebTZsAPvnmryW3cnClVNL4r4IHcx9wekMwGjmYtLnhSu0O1I3TB5LlmeTWT2cWFweZANG/vqtL7+iIB4gAAAAASUVORK5CYII=";
 
   // old icons - low res/tiff-24.png
   var tiff_24_default = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAFQ0lEQVR4AYWVA5A0yRaFv6zKqh7b82zbtv3WthmOte0NrG3bxm/b5ljNSmxm1B/dvc6JU47z3Tn3Rraw1gKgtfmT0xdkLEvXnnFGzZ+2bPnfp1taWrLZrM5PTDDU0RnJb3xz5pcOPXSG0DoCsO86pGdjkZEMN0SRfAZAGGNwkL5strjKyKg+2b6VxnvvRqxaSWFyktzAAOu//BU6Tz2D/s98iuLElPseJ5va+rOXf+b/HEEEQrW1Nn07CMQyKYQAiMlkYrVlMzX330s8NoJtaSFOEjb+5Kd0H3ci3T09zjzLxy4Bxlipta4RIkAuW7kSWVNDe2LIPHAvDYUCNDXD+Dgbv/o16g84mK6uLpJC0dcHH1V95b685N9/9jO+8qlPdd775z9H9fkctLRiSyXWdHcjd9/Lm6OKRQhDrIwA/HtQ6gPMwauaIKfttx9xEPw63rIFVVuLNJbVn/yUM9+bLheL9h/HGZKhQZg1g1Ab+P4PcJmlhg5mjan0JSWWYbKprQ1TLIrC1BTGac23vk1mD1d5by+lfAGzZhXCmfHUE7S+/QbWAUqbNzLx/z3BFRV86cvYIHAQXQaky+Il88UixuVeGBxg5Ec/ofmwI+l0sZRc5vqh+2me9ia6uRWtEnSmBtc8jOtbeMHZxDt2oH7yM5JDj8AiyoDqFfgHygE2f/2bNJ5wMp2dXanJtq00OHMhI8TYKOHQEDpJME52YCfx8DA6DOHVlwhXrsBGUTmWaojcMGsWtqnJ9F96JR0uFg/DfYwDqa5u2LoVoxTmu98j19ePMJZg8ybsm69jfPbtHVjXs9TYVJoOXgTPfPKTbPzu917r7esrT0viqlU334AeHkHlsqivfZ3Rnj70449iHnmQxJmWfvhj1NQkpbEx8pdfgvXQUFY12ksQnHnbbfz/9NOGC4lK/EOiGLN4EXVvvErgolHaUPjs5wiffJxofBw7OYl97GH0F75ICYEeHcU++xT2tZexcVw1uumSWpuUiK3MsBA+Kl8Rxo9hovyUUMrlfH8IGhpQxvhvEO5e5/PIIG2ySd3LhIB0VebYxRR+6zuYv/6DUiaDymYxc2bBP/+D6egEP9b/253ctLexExOYOCZ2Yy1+/2dsvlCJiFSyAkhbg9aI5maKe+9HYcZ0ImMws2ZgXPX293/CCEt+xjTCt95ECwHakDn0KLSDm1w+NS/bUwFUR+TlR5EN61Heo5RgXcV62lsYrQmLJUwQYAC7cYNvMKajq7xlVNa7I0qNAeMM5ac/S+j+dTU55bcFVHu7N3cyWHfNpz6FyU5Ru98B4CK1vmemAojjiDiSCKW0f/iZ8YnsKqNtVN64EFhf5fKliE9+mrFrriC56XoPoc6Ba049G712DcHXv4H2HjrdKmQUMTgwMJDPjX03k4m2OYDCA8bGcw5gHAB/X8kyirHGoP3Ivvk6QiUEP/8lprUDCyS5LFEoqKurAxGyadPmqSMPP+g/CxbMfRlAeKMkUQ6QfR+gskMabBCCmyr/zORzmEQhhGByapJCPsvnv/AlVq9eM374YQfstnTJopfKPdi5cwApQ6ja16mYpwKsUn63dZr01+VvjTGEMnIb65bckUcctGeVeQr42te+yn333U9jYyNRFDtFPkd3lv46lfTPdkl67XompYumnm1bt40ffNB+/168aMHzH/ALCi0tLR13333/U719/V9KXF6uMhddGh/+GptGk96Xz0IEwfDwsDrrrFPPWrRw/mNAPZAAWWAKKIgU4ouL6p1anWno7wF/DgBR1ruXBdBal9zKATGgSAF5UkjxHcHfrgeYUQvBAAAAAElFTkSuQmCC";
@@ -129,178 +328,19 @@
     recording: "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAApgAAAKYB3X3/OAAAABl0RVh0U29mdHdhcmUAd3d3Lmlua3NjYXBlLm9yZ5vuPBoAAAPjSURBVEiJtZZPbNtkGMafz7Gd2HFTt26TrulCWLW0DLTSXhCXlVFAExUIDlTRhMSCkLhx2AkxiQOCCgQHxA2EGqZxCGUHBCpw6J+1YwculIHUloxWWULXv27cxH8SO7Y5bFk7mtB2guf6ve/v+d7Pn/2YuK6Lenrq1bdOMIZniNY8/ew28xBj0M0AYHGVLbPRmq/47WmLs0fHR4bn6jFILYNEIuGT5eiYV2ZPK90FUozoUI8aKDeZAABvnoWQ49CQ5SEuBNyyZE5JUmYwmUyW9jU4c+7CYCAtpDZ6FWH5yXW41M46rTBonhWht5dQbi3DajJBXILwZBCts6JaiKnxH794b6yuwbNDb3/qX/W9lo5nKf3Ins0ALgGf4cGt+CD8xUPuUaB2FQEA/IoPsVTE0dpKn38/+s7rewzOnLsw2LDk//b6Gzco11P/udSUQ+7AgJ5PjjvFY9rz1Uko4PaZB9JCKh3PHh4OgJUZdH4ZgUu5SMezVCAtpBKJhO+ugSxHxzZ6FaHmsRxAZquJQlRDy9UW6EdK2OhVBFmOjgGA56eseULI8R/eOJslIPfFBwDoER3tU0EYooV8r4LwZDD62bUfvqYYwzOkdBfI7tuyW51aGC9+3I+BXN+/OxBgKZ7Dse/a4VIulO4CYQzPEEVrnv5iRK/bx1e8eKAriMdvPYz4pQH0KJ11ax3Ohs3aICaFYkQHrXn6PY+0Pf3ByqlNwebsmk2hchN69E688v4Auh7tQOFiCcczHchHCijSezdG51nYrINy0ETo52aOZgy6udxkglYYVBort+9aHYW7JJy/9AJ+v3IT9EceGL1lXO67ck9N8UEN/iyPzVObYAy6maouiL81gl/y14UfVFqnBuXk9s5EFlfZ8ubZkBbREVgSoHeqdZuX/5Dx1btXoXAqZl7+Fcvezb1FxEVFtODNs7C4yhZtNlrzQo4L5buKCEyEsFYDXJQNXHxzAn+mb2H+uQyui4v7TiLkOJiN1jxd8dvTDVn+CfnkNhjDA2JScFnnbqFOl5GZX0PxJRUTj/2yL7iqhiyPit+epizOHhUXAi5xCG4+s4ro5Y57Chf9y/jm/Awmjh4cThwCcSHgWpw9So2PDM+VJXMqPBmEFlOht5UgXZMODKul8GQQZcmcGh8ZnqMAQJIyg62zosqv+LB2eh3iogB2w3tfcH7Fh9ZZUZWkzCBw52OXTCZLhZgaj6UiDnEIls7mYDVZh4YTmyCWijiFmBqvptu+gcNsetE20wKtvQQjVIIR1Wu+jPsGTlX/jEwAYLZYeNdZcKsctvryqIg70xHnEJFZ1f8a+rv1X/y2/A2uS/rFOkxWwAAAAABJRU5ErkJggg=="
   };
 
-  // src/customStyles.scss
-  var customStyles_default = `@charset "UTF-8";
-/* Custom class used by 'Shorten course names' */
-.text-overflow-ellipsis {
-  overflow: hidden;
-  white-space: pre;
-  text-overflow: "\u2026 ";
-  /* Also add a space afterwards */
-}
-
-/* LIs containing the links to the courses */
-.block-fcl__list__item--course {
-  margin-right: 10px !important;
-  padding: 1px 5px 1px 0 !important;
-}
-
-.block-fcl__list__item--course:not(:first-of-type) {
-  border-top: 1px solid #aaa !important;
-}
-
-/* The link to a course */
-.block-fcl__list__item--course .block-fcl__list__link {
-  display: grid;
-  /* Grid: 24px for icon, min-content for course number and the rest for the course name */
-  grid-template: "a b c" 100%/24px auto min-content;
-}
-
-/* Usually holds the course number in the link */
-.block-fcl__list__item--course .block-fcl__list__link::after {
-  content: none !important;
-}
-
-/* left-side-panel */
-.drawer.drawer-right {
-  max-width: 330px !important;
-  width: 330px !important;
-}
-
-/* Courses list */
-.block_filtered_course_list .card-body {
-  padding: 5px 10px 0 0 !important;
-}
-
-/* List of courses in each semester */
-.block-fcl__list.collapsible {
-  padding-top: 2px !important;
-}
-
-/* Fix egregious margins for paragraphs */
-p {
-  margin: 0 0 5px 0 !important;
-}
-
-/* The container of a forum post */
-.forumpost {
-  padding: 0 !important;
-}
-
-/* Header of a forum post. 'header.header' is to get a higher specificity than the built-in CSS */
-.forumpost header.header {
-  margin-bottom: 0px !important;
-  padding: 5px !important;
-}
-
-.forumpost header.header .mb-3 {
-  margin-bottom: 0 !important;
-}
-
-/* Padding to the right of a forum post */
-.forumpost .body-content-container .author-groups-container {
-  width: 20px !important;
-}
-
-/* 'Reply' and 'direct link' buttons */
-.forumpost .post-actions a {
-  padding: 0 0 2px 15px !important;
-}
-
-/* An empty toolbar at the top of the screen */
-.headerbuttons {
-  display: none !important;
-}
-
-/* The container of a sidebar */
-.drawer {
-  --header-height: 30px;
-}
-
-/* The header of a sidebar. Contains only the 'close' button */
-.drawerheader {
-  height: var(--header-height) !important;
-  padding-top: 5px !important;
-}
-
-/* The content of a sidebar. should be*/
-.drawercontent {
-  height: calc(100% - var(--header-height)) !important;
-}
-
-/* A sublist item in the right-side-bar */
-#course-index .courseindex-item-content .courseindex-item {
-  padding: 1px 0 !important;
-}
-
-/* A sublist title in the right-side-bar */
-#course-index .courseindex-section-title .courseindex-item {
-  padding: 3px 2px !important;
-}
-
-/* A sublist container in the right-side-bar */
-#course-index .courseindex-section {
-  margin-bottom: 5px !important;
-}
-
-/* The container of an item in a 'course activity' list */
-.activity-wrapper {
-  padding: 0 !important;
-}
-
-/* An item in a 'course activity' list */
-.activity-item {
-  padding: 5px !important;
-}
-
-/*
-	Margins fix: top header can hide content
-*/
-nav.navbar.fixed-top {
-  position: sticky !important;
-}
-
-#page,
-#topofscroll,
-#learnrpage {
-  margin-top: 0 !important;
-}
-
-/* '#topofscroll' is to get a higher specificity than the built-in CSS */
-#topofscroll #learnrpage {
-  padding-top: 2px !important;
-}
-
-/*
-	Replace bad icons - should only be enabled if the 'Replace bad icons' is also enabled
+  // src/style/replaceBadIcons.scss
+  var replaceBadIcons_default = `/*
+	Helper classes for replaceBadIcons
 */
 /* '#topofscroll' is to get a higher specificity than the built-in CSS */
 #topofscroll .activityiconcontainer.custom-icon {
   background: none !important;
 }
-
-/* '#topofscroll' is to get a higher specificity than the built-in CSS */
 #topofscroll .nofilter {
   filter: none !important;
 }`;
 
-  // src/biuMoodleFixer.ts
-  var $m = document.querySelectorAll.bind(document);
-  var log = (...args) => {
-    console.log(`[BIU Moodle Fixer @ ${(/* @__PURE__ */ new Date()).toLocaleTimeString()}]:`, ...args);
-  };
-  var courseLinks = $m(".block-fcl__list__item--course a");
-  for (const courseLink of courseLinks) {
-    const courseTextNode = courseLink.childNodes[2];
-    const spanCourseName = document.createElement("span");
-    spanCourseName.classList.add("text-overflow-ellipsis");
-    spanCourseName.textContent = (courseTextNode.textContent ?? "").replace(/[A-z].*/, " ").trim();
-    const spanCourseNumber = document.createElement("span");
-    spanCourseNumber.textContent = courseLink.title.substring(2) ?? "0";
-    courseLink.replaceChild(spanCourseName, courseTextNode);
-    courseLink.appendChild(spanCourseNumber);
-  }
-  log("Course names style revamped");
+  // src/replaceBadIcons.ts
   var ICON_URL_PREFIX = "https://lemida.biu.ac.il/theme/image.php/learnr";
   var fixedIconsMap = {
     "assign": icons.assignment,
@@ -310,15 +350,14 @@ nav.navbar.fixed-top {
     "mod_page": icons.page,
     "videostream": icons.recording,
     // If you find the original icons for the above, please let me know!
-    "archive-24": ogIcons.archive,
-    "document-24": ogIcons.document,
     "folder": ogIcons.folder,
     "glossary": ogIcons.glossary,
-    "pdf-24": ogIcons.pdf,
-    "powerpoint-24": ogIcons.powerpoint,
-    "spreadsheet-24": ogIcons.spreadsheet
+    ...Object.entries(ogIcons).reduce((currentObj, [iconName, iconData]) => {
+      currentObj[iconName + "-24"] = iconData;
+      return currentObj;
+    }, {})
   };
-  window.addEventListener("load", () => {
+  function replaceBadIcons() {
     for (const [oldSrcInfix, newSrc] of Object.entries(fixedIconsMap)) {
       const selector = `.activityicon[src^="${ICON_URL_PREFIX}"][src*="${oldSrcInfix}"], .icon[src^="${ICON_URL_PREFIX}"][src*="${oldSrcInfix}"]`;
       $m(selector).forEach((el) => {
@@ -327,8 +366,17 @@ nav.navbar.fixed-top {
         el.classList.add("nofilter");
       });
     }
+    GM_addStyle(replaceBadIcons_default);
+    log("Replace Bad Icons applied");
+  }
+
+  // src/index.ts
+  window.addEventListener("load", () => {
+    if (options.courseListRevamp)
+      courseListRevamp();
+    if (options.replaceBadIcons)
+      replaceBadIcons();
+    if (options.paddingMargin)
+      paddingMargin();
   });
-  log("Monotone icons replaced");
-  GM_addStyle(customStyles_default);
-  log("Custom styles applied");
 })();

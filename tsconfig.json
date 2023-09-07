@@ -1,14 +1,15 @@
 {
 	"files": [
-		"src/biuMoodleFixer.ts"
+		"src/index.ts"
 	],
 	"include": [
 		"./declaration.d.ts"
 	],
 	"compilerOptions": {
+		"allowImportingTsExtensions": true,
 		"forceConsistentCasingInFileNames": true,
 		"moduleResolution": "Bundler",
-		"newLine": "LF",
+		"noEmit": true,
 		"noUnusedLocals": true,
 		"noUnusedParameters": true,
 		"removeComments": false,

@@ -9,7 +9,7 @@ const USERSCRIPT_BANNER = {
 // @grant       GM_addStyle
 // @version     1.0
 // @author      Michael Tsaban
-// @description Partially fixes the new Moodle design. Created@9/6/2023
+// @description Partially fixes the new Moodle design.
 // ==/UserScript==
   `,
 }
@@ -17,7 +17,8 @@ const USERSCRIPT_BANNER = {
 await build({
 	banner: USERSCRIPT_BANNER,
 	bundle: true,
-	entryPoints: ['src/biuMoodleFixer.ts'],
+	entryPoints: ['src/index.ts'],
+	legalComments: 'inline',
 	loader: { '.png': 'dataurl' },
 	outfile: 'dist/biuMoodleFixer.user.js',
 	plugins: [ sassPlugin({ type: 'css-text' }) ],

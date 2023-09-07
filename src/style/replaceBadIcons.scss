@@ -1,0 +1,14 @@
+/*
+	Helper classes for replaceBadIcons
+*/
+
+/* '#topofscroll' is to get a higher specificity than the built-in CSS */
+#topofscroll {
+	.activityiconcontainer.custom-icon {
+		background: none !important;
+	}
+
+	.nofilter {
+		filter: none !important;
+	}
+}
