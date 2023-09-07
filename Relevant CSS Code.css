@@ -1,0 +1,47 @@
+img[src*="spreadsheet-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-excel-regular);
+}
+img[src*="document-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-word-regular);
+}
+img[src*="pdf-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-pdf-regular);
+}
+img[src*="unknown-24"],
+img[src*="calc-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-regular);
+}
+img[src*="archive-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-zipper-regular);
+}
+img[src*="powerpoint-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-powerpoint-regular);
+}
+img[src*="text-24"],
+img[src*="writer-24"],
+img[src*="impress-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-lines-regular);
+}
+img[src*="mp3-24"],
+img[src*="audio-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-audio-regular);
+}
+img[src*="tiff-24"],
+img[src*="image-24"],
+img[src*="jpeg-24"],
+img[src*="png-24"],
+img[src*="gif-24"],
+img[src*="bmp-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-image-regular);
+}
+img[src*="video-24"],
+img[src*="avi-24"],
+img[src*="flash-24"],
+img[src*="mpeg-24"],
+img[src*="quicktime-24"],
+img[src*="wmv-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-video-regular);
+}
+img[src*="sourcecode-24"] {
+  content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-code-regular);
+}
