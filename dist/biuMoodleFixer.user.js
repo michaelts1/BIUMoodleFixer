@@ -21,14 +21,17 @@
    *    ╚══════╝╚══════╝   ╚═╝      ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝
    *
    * Feel free to change these the boolean values below to turn on/off components of this userscript :)
+   *
    */
   var options = {
+    courseListRevamp: true,
+    // Improves the course list in the left sidebar
+    homepageRevamp: true,
+    // Improves the layout of the home/login page
     paddingMargin: true,
     // Various fixes for improving space utilization
-    replaceBadIcons: true,
+    replaceBadIcons: true
     // Replaces the new, monotone icons with the old icons and other colorful icons
-    courseListRevamp: true
-    // Improves the course list in the left sidebar
   };
   /*!
    *
@@ -56,6 +59,9 @@
   /* Also add a space afterwards */
 }
 
+/*
+	Other rules
+*/
 /* LIs containing the links to the courses */
 .block-fcl__list__item--course {
   margin-right: 10px !important;
@@ -96,11 +102,96 @@
     log("Course List Revamp applied");
   }
 
+  // src/style/homepageRevamp.scss
+  var homepageRevamp_default = `/* TODO: Fix low-width window sizes */
+/* The container for the front page cover image */
+.frontpage #branding {
+  height: 360px;
+  /* A button in the header banner */
+  /* The container for the buttons in the header banner */
+}
+.frontpage #branding h1 {
+  display: none !important;
+}
+.frontpage #branding #logoimg {
+  display: flex;
+  flex-direction: row-reverse;
+  margin-top: 1.25rem;
+}
+.frontpage #branding #logoimg:not(.logged-in) {
+  background-position: 14rem 0;
+}
+.frontpage #branding .loginbtn {
+  margin: auto 0;
+  padding-bottom: 0px;
+}
+.frontpage #branding .card {
+  min-height: 3rem !important;
+}
+.frontpage #branding .row {
+  margin-top: -1.5rem;
+}
+
+/* The "Welcome <student name>" header */
+#page-header h2 {
+  height: initial !important;
+  top: 17rem !important;
+}
+
+/* Part of the container for the front page cover image */
+#region-main #section-1 {
+  padding: 0 1rem !important;
+}
+#region-main #section-1 .my-3 {
+  margin-bottom: 0 !important;
+}
+
+/* The container for the course boxes */
+#category-course-list .container-fluid {
+  display: flex;
+  flex-wrap: wrap;
+  overflow: hidden;
+  white-space: nowrap;
+  /* A course box */
+}
+#category-course-list .container-fluid .col-md-4 {
+  min-width: 15rem !important;
+  padding: 0 10px !important;
+}
+@media (550px <= width < 960px) {
+  #category-course-list .container-fluid .col-md-4 {
+    flex-basis: 50% !important;
+    max-width: 50% !important;
+  }
+}
+@media (960px <= width) {
+  #category-course-list .container-fluid .col-md-4 {
+    flex-basis: 25% !important;
+    max-width: 25% !important;
+  }
+}`;
+
+  // src/homepageRevamp.ts
+  function homepageRevamp() {
+    const logoImgContainer = document.querySelector("#branding");
+    const logoImg = logoImgContainer.querySelector("#logoimg");
+    const loginBtn = logoImgContainer.querySelector(".loginbtn");
+    logoImg.appendChild(loginBtn);
+    const loginLink = loginBtn.querySelector('a[href*="login.php"]');
+    loginLink.removeAttribute("target");
+    if (document.querySelector("#user-menu-toggle")) {
+      logoImg.classList.add("logged-in");
+      const courseBoxesContainer = document.querySelector("#frontpage-course-list .container-fluid");
+      const courseBoxes = $m(".category-course-list-all .col-md-4");
+      courseBoxesContainer.replaceChildren(...courseBoxes);
+      $m(".category-course-list-all .container-fluid:not(:nth-child(1 of .container-fluid))").forEach((el) => el.remove());
+    }
+    GM_addStyle(homepageRevamp_default);
+    log("Homepage Revamp applied");
+  }
+
   // src/style/paddingMargin.scss
-  var paddingMargin_default = `/*
-	Helper classes for paddingMargin
-*/
-/* List of courses in each semester */
+  var paddingMargin_default = `/* List of courses in each semester */
 .block-fcl__list.collapsible {
   padding-top: 2px !important;
 }
@@ -399,5 +490,7 @@ nav.navbar.fixed-top {
       replaceBadIcons();
     if (options.paddingMargin)
       paddingMargin();
+    if (new URL(location.href).pathname === "/" && options.homepageRevamp)
+      homepageRevamp();
   });
 })();
