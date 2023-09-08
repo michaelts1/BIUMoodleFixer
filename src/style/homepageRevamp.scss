@@ -50,7 +50,7 @@
 }
 
 /* The container for the course boxes */
-#category-course-list .container-fluid {
+#frontpage-course-list .container-fluid {
 	display: flex;
 	flex-wrap: wrap;
 	overflow: hidden;
@@ -59,7 +59,6 @@
 	/* A course box */
 	.col-md-4 {
 		min-width: 15rem !important;
-		padding: 0 10px !important;
 
 		$flex-breakpoint: 960px;
 
@@ -71,6 +70,15 @@
 		@media ($flex-breakpoint <= width) {
 			flex-basis: 25% !important;
 			max-width: 25% !important;
+		}
+	}
+
+	/* List of teachers inside a course box */
+	.teacherscourseview {
+		padding-right: 1.5rem;
+		li {
+			text-align: justify;
+			white-space: break-spaces;
 		}
 	}
 }

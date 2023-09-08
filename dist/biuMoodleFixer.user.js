@@ -147,31 +147,53 @@
 }
 
 /* The container for the course boxes */
-#category-course-list .container-fluid {
+#frontpage-course-list .container-fluid {
   display: flex;
   flex-wrap: wrap;
   overflow: hidden;
   white-space: nowrap;
   /* A course box */
+  /* List of teachers inside a course box */
 }
-#category-course-list .container-fluid .col-md-4 {
+#frontpage-course-list .container-fluid .col-md-4 {
   min-width: 15rem !important;
-  padding: 0 10px !important;
 }
 @media (550px <= width < 960px) {
-  #category-course-list .container-fluid .col-md-4 {
+  #frontpage-course-list .container-fluid .col-md-4 {
     flex-basis: 50% !important;
     max-width: 50% !important;
   }
 }
 @media (960px <= width) {
-  #category-course-list .container-fluid .col-md-4 {
+  #frontpage-course-list .container-fluid .col-md-4 {
     flex-basis: 25% !important;
     max-width: 25% !important;
   }
+}
+#frontpage-course-list .container-fluid .teacherscourseview {
+  padding-right: 1.5rem;
+}
+#frontpage-course-list .container-fluid .teacherscourseview li {
+  text-align: justify;
+  white-space: break-spaces;
 }`;
 
   // src/homepageRevamp.ts
+  function loggedInRevamp() {
+    const logoImg = document.querySelector("#logoimg");
+    logoImg.classList.add("logged-in");
+    const courseBoxesContainer = document.querySelector("#frontpage-course-list .container-fluid");
+    const courseBoxes = $m(".category-course-list-all .col-md-4");
+    courseBoxesContainer.replaceChildren(...courseBoxes);
+    $m(".category-course-list-all .container-fluid:not(:nth-child(1 of .container-fluid))").forEach((el) => el.remove());
+    for (const courseBox of courseBoxes) {
+      const teachers = Array.from(courseBox.querySelectorAll(".teacherscourseview li")).map((teacherItem) => (teacherItem.textContent?.match(/(?<=מרצה: ).*/) ?? [""])[0]);
+      const teachersListLi = document.createElement("li");
+      const teacherListPrefix = teachers.length <= 1 ? "\u05DE\u05E8\u05E6\u05D4: " : "\u05DE\u05E8\u05E6\u05D9\u05DD: ";
+      teachersListLi.textContent = teacherListPrefix + teachers.join(", ");
+      courseBox.querySelector(".teacherscourseview")?.replaceChildren(teachersListLi);
+    }
+  }
   function homepageRevamp() {
     const logoImgContainer = document.querySelector("#branding");
     const logoImg = logoImgContainer.querySelector("#logoimg");
@@ -179,13 +201,8 @@
     logoImg.appendChild(loginBtn);
     const loginLink = loginBtn.querySelector('a[href*="login.php"]');
     loginLink.removeAttribute("target");
-    if (document.querySelector("#user-menu-toggle")) {
-      logoImg.classList.add("logged-in");
-      const courseBoxesContainer = document.querySelector("#frontpage-course-list .container-fluid");
-      const courseBoxes = $m(".category-course-list-all .col-md-4");
-      courseBoxesContainer.replaceChildren(...courseBoxes);
-      $m(".category-course-list-all .container-fluid:not(:nth-child(1 of .container-fluid))").forEach((el) => el.remove());
-    }
+    if (document.querySelector("#user-menu-toggle"))
+      loggedInRevamp();
     GM_addStyle(homepageRevamp_default);
     log("Homepage Revamp applied");
   }
@@ -290,6 +307,22 @@ nav.navbar.fixed-top {
 /* '#topofscroll' is to get a higher specificity than the built-in CSS */
 #topofscroll #learnrpage {
   padding-top: 2px !important;
+}
+
+/*
+	Homepage tweaks
+*/
+/* A course box on the homepage */
+#frontpage-course-list .container-fluid .col-md-4 {
+  padding: 0 10px !important;
+}
+#frontpage-course-list .container-fluid .col-md-4 .class-box {
+  height: 125px !important;
+  margin-bottom: 1.25rem !important;
+  padding-right: 0 !important;
+}
+#frontpage-course-list .container-fluid .col-md-4 .course-title {
+  display: inline-block;
 }`;
 
   // src/paddingMargin.ts

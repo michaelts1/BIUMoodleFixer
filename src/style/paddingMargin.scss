@@ -107,3 +107,22 @@ nav.navbar.fixed-top {
 #topofscroll #learnrpage {
 	padding-top: 2px !important;
 }
+
+/*
+	Homepage tweaks
+*/
+
+/* A course box on the homepage */
+#frontpage-course-list .container-fluid .col-md-4 {
+	padding: 0 10px !important;
+
+	.class-box {
+		height: 125px !important;
+		margin-bottom: 1.25rem !important;
+		padding-right: 0 !important;
+	}
+
+	.course-title {
+		display: inline-block;
+	}
+}
