@@ -26,23 +26,17 @@ function loggedInRevamp() {
 
 		courseBox.querySelector('.teacherscourseview')?.replaceChildren(teachersListLi)
 	}
+
+	GM_addStyle(css)
 }
 
 export function homepageRevamp() {
-	// Move the login button to the side of the logo
-	const logoImgContainer = document.querySelector('#branding') as HTMLElement
-	const logoImg = logoImgContainer.querySelector('#logoimg') as HTMLElement
-	const loginBtn = logoImgContainer.querySelector('.loginbtn') as HTMLElement
-	logoImg.appendChild(loginBtn)
-
 	// Make the login page open in the same tab
-	const loginLink = loginBtn.querySelector('a[href*="login.php"]') as HTMLElement
+	const loginLink = document.querySelector('.loginbtn a[href*="login.php"]') as HTMLElement
 	loginLink.removeAttribute('target')
 
 	// Update layout if logged in
 	if (document.querySelector('#user-menu-toggle')) loggedInRevamp()
-
-	GM_addStyle(css)
 
 	log('Homepage Revamp applied')
 }

@@ -24,14 +24,14 @@
    *
    */
   var options = {
+    /** Course List Revamp: Improves the course list in the left sidebar */
     courseListRevamp: true,
-    // Improves the course list in the left sidebar
+    /** Homepage Revamp: Improves the layout of the home page, and makes the login button open in the same tab */
     homepageRevamp: true,
-    // Improves the layout of the home/login page
+    /** Padding-Margin: Various fixes for improving space utilization */
     paddingMargin: true,
-    // Various fixes for improving space utilization
+    /** Replaces the new, monotone icons with the old icons and other colorful icons */
     replaceBadIcons: true
-    // Replaces the new, monotone icons with the old icons and other colorful icons
   };
   /*!
    *
@@ -103,8 +103,7 @@
   }
 
   // src/style/homepageRevamp.scss
-  var homepageRevamp_default = `/* TODO: Fix low-width window sizes */
-/* The container for the front page cover image */
+  var homepageRevamp_default = `/* The container for the front page cover image */
 .frontpage #branding {
   height: 360px;
   /* A button in the header banner */
@@ -114,12 +113,10 @@
   display: none !important;
 }
 .frontpage #branding #logoimg {
+  background-position: 35%;
   display: flex;
   flex-direction: row-reverse;
   margin-top: 1.25rem;
-}
-.frontpage #branding #logoimg:not(.logged-in) {
-  background-position: 14rem 0;
 }
 .frontpage #branding .loginbtn {
   margin: auto 0;
@@ -193,17 +190,13 @@
       teachersListLi.textContent = teacherListPrefix + teachers.join(", ");
       courseBox.querySelector(".teacherscourseview")?.replaceChildren(teachersListLi);
     }
+    GM_addStyle(homepageRevamp_default);
   }
   function homepageRevamp() {
-    const logoImgContainer = document.querySelector("#branding");
-    const logoImg = logoImgContainer.querySelector("#logoimg");
-    const loginBtn = logoImgContainer.querySelector(".loginbtn");
-    logoImg.appendChild(loginBtn);
-    const loginLink = loginBtn.querySelector('a[href*="login.php"]');
+    const loginLink = document.querySelector('.loginbtn a[href*="login.php"]');
     loginLink.removeAttribute("target");
     if (document.querySelector("#user-menu-toggle"))
       loggedInRevamp();
-    GM_addStyle(homepageRevamp_default);
     log("Homepage Revamp applied");
   }
 

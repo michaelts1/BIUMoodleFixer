@@ -1,5 +1,3 @@
-/* TODO: Fix low-width window sizes */
-
 /* The container for the front page cover image */
 .frontpage #branding {
 	height: 360px;
@@ -9,13 +7,10 @@
 	}
 
 	#logoimg {
+		background-position: 35%;
 		display: flex;
 		flex-direction: row-reverse;
 		margin-top: 1.25rem;
-
-		&:not(.logged-in) {
-			background-position: 14rem 0;
-		}
 	}
 
 	.loginbtn {
@@ -76,6 +71,7 @@
 	/* List of teachers inside a course box */
 	.teacherscourseview {
 		padding-right: 1.5rem;
+
 		li {
 			text-align: justify;
 			white-space: break-spaces;
