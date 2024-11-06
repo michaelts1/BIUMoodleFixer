@@ -26,8 +26,6 @@
   var options = {
     /** Course List Revamp: Improves the course list in the left sidebar */
     courseListRevamp: true,
-    /** Homepage Revamp: Improves the layout of the home page, and makes the login button open in the same tab */
-    homepageRevamp: true,
     /** Padding-Margin: Various fixes for improving space utilization */
     paddingMargin: true,
     /** Replaces the new, monotone icons with the old icons and other colorful icons */
@@ -100,104 +98,6 @@
     }
     GM_addStyle(courseListRevamp_default);
     log("Course List Revamp applied");
-  }
-
-  // src/style/homepageRevamp.scss
-  var homepageRevamp_default = `/* The container for the front page cover image */
-.frontpage #branding {
-  height: 360px;
-  /* A button in the header banner */
-  /* The container for the buttons in the header banner */
-}
-.frontpage #branding h1 {
-  display: none !important;
-}
-.frontpage #branding #logoimg {
-  background-position: 35%;
-  display: flex;
-  flex-direction: row-reverse;
-  margin-top: 1.25rem;
-}
-.frontpage #branding .loginbtn {
-  margin: auto 0;
-  padding-bottom: 0px;
-}
-.frontpage #branding .card {
-  min-height: 3rem !important;
-}
-.frontpage #branding .row {
-  margin-top: -1.5rem;
-}
-
-/* The "Welcome <student name>" header */
-#page-header h2 {
-  height: initial !important;
-  top: 17rem !important;
-}
-
-/* Part of the container for the front page cover image */
-#region-main #section-1 {
-  padding: 0 1rem !important;
-}
-#region-main #section-1 .my-3 {
-  margin-bottom: 0 !important;
-}
-
-/* The container for the course boxes */
-#frontpage-course-list .container-fluid {
-  display: flex;
-  flex-wrap: wrap;
-  overflow: hidden;
-  white-space: nowrap;
-  /* A course box */
-  /* List of teachers inside a course box */
-}
-#frontpage-course-list .container-fluid .col-md-4 {
-  min-width: 15rem !important;
-}
-@media (550px <= width < 960px) {
-  #frontpage-course-list .container-fluid .col-md-4 {
-    flex-basis: 50% !important;
-    max-width: 50% !important;
-  }
-}
-@media (960px <= width) {
-  #frontpage-course-list .container-fluid .col-md-4 {
-    flex-basis: 25% !important;
-    max-width: 25% !important;
-  }
-}
-#frontpage-course-list .container-fluid .teacherscourseview {
-  padding-right: 1.5rem;
-}
-#frontpage-course-list .container-fluid .teacherscourseview li {
-  text-align: justify;
-  white-space: break-spaces;
-}`;
-
-  // src/homepageRevamp.ts
-  function loggedInRevamp() {
-    const logoImg = document.querySelector("#logoimg");
-    logoImg.classList.add("logged-in");
-    const courseBoxesContainer = document.querySelector("#frontpage-course-list .container-fluid");
-    const courseBoxes = $m(".category-course-list-all .col-md-4");
-    courseBoxesContainer.replaceChildren(...courseBoxes);
-    $m(".category-course-list-all .container-fluid:not(:nth-child(1 of .container-fluid))").forEach((el) => el.remove());
-    for (const courseBox of courseBoxes) {
-      const teachers = Array.from(courseBox.querySelectorAll(".teacherscourseview li")).map((teacherItem) => (teacherItem.textContent?.match(/(?<=מרצה: ).*/) ?? [""])[0]);
-      const teachersListLi = document.createElement("li");
-      const teacherListPrefix = teachers.length <= 1 ? "\u05DE\u05E8\u05E6\u05D4: " : "\u05DE\u05E8\u05E6\u05D9\u05DD: ";
-      teachersListLi.textContent = teacherListPrefix + teachers.join(", ");
-      courseBox.querySelector(".teacherscourseview")?.replaceChildren(teachersListLi);
-    }
-    GM_addStyle(homepageRevamp_default);
-  }
-  function homepageRevamp() {
-    const loginLink = document.querySelector('.loginbtn a[href*="login.php"]');
-    loginLink.removeAttribute("target");
-    if (document.querySelector("#user-menu-toggle"))
-      loggedInRevamp();
-    log("Homepage Revamp applied");
   }
 
   // src/style/paddingMargin.scss
@@ -516,7 +416,5 @@ nav.navbar.fixed-top {
       replaceBadIcons();
     if (options.paddingMargin)
       paddingMargin();
-    if (new URL(location.href).pathname === "/" && options.homepageRevamp)
-      homepageRevamp();
   });
 })();
