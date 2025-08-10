@@ -3,17 +3,17 @@ import { getSettings } from '../getSettings'
 
 // Save options to storage
 function updateSetting(event: Event) {
-	console.log(event)
-	const key = event.target?.id
-	const value = event.target?.checked
+	const target = event.target as HTMLInputElement
+	const key = target.id
+	const value = target.checked
 	browser.storage.sync.set({ [key]: value })
 
-	document.querySelector('#message')!.classList.remove('hidden')
+	document.querySelector('#message')?.classList.remove('hidden')
 }
 
 async function init() {
 	const settings = await getSettings()
-	for (const settingInput of $m('.option input')) {
+	for (const settingInput of ($m('.option input') as NodeListOf<HTMLInputElement>)) {
 		settingInput.checked = settings[settingInput.id]
 		settingInput.addEventListener('change', updateSetting)
 	}

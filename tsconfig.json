@@ -1,9 +1,7 @@
 {
 	"files": [
-		"src/content/index.ts"
-	],
-	"include": [
-		"./declaration.d.ts"
+		"src/content/index.ts",
+		"src/options/options.ts",
 	],
 	"compilerOptions": {
 		"allowImportingTsExtensions": true,
