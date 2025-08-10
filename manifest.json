@@ -1,0 +1,36 @@
+{
+	"manifest_version": 3,
+	"name": "BIU Lamda Fixer",
+	"version": "0.1.0",
+
+	"description": "Various styling and QoL fixes for the BIU Lamda platform. Toggable options for: fixing the left-side courses list, reducing excessive paddings and margins, replacing the monotone icons with more colorful ones, and more.",
+
+	"author": "Michael Tsaban",
+	"homepage_url": "https://github.com/michaelts1/BIUMoodleFixer",
+
+	"icons": {
+		"32": "icons/favicon/favicon-32.png",
+		"64": "icons/favicon/favicon-64.png",
+		"128": "icons/favicon/favicon-128.png",
+		"256": "icons/favicon/favicon-256.png"
+	},
+
+	"options_ui": {
+		"page": "dist/options.html"
+	},
+
+	"content_scripts": [
+		{
+			"css": ["dist/index.css"],
+			"js": ["dist/index.js"],
+			"matches": ["https://lemida.biu.ac.il/*"]
+		}
+	],
+
+	"web_accessible_resources": [
+		{
+			"resources": ["icons/old/*", "icons/custom/*"],
+			"matches": ["https://lemida.biu.ac.il/*"]
+		}
+	]
+}

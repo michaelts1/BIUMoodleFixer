@@ -1,3 +1,5 @@
+/* These are the CSS rules currently used on the Lamda site for the new icons, saved here for documentation */
+
 img[src*="spreadsheet-24"] {
   content:url(/theme/image.php/learnr/theme/1693892535/file_types/file-excel-regular);
 }

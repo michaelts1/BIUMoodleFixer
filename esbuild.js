@@ -19,8 +19,14 @@ await build({
 	bundle: true,
 	entryPoints: ['src/index.ts'],
 	legalComments: 'inline',
-	loader: { '.png': 'dataurl' },
-	outfile: 'dist/biuMoodleFixer.user.js',
-	plugins: [ sassPlugin({ type: 'css-text' }) ],
-	target: [ 'firefox100', 'chrome100' ],
+	outfile: 'dist/index.js',
+	target: [ 'firefox140', 'chrome140' ],
+})
+
+await build({
+	entryPoints: ['src/style/index.scss'],
+	loader: { '.css': 'css', '.scss': 'css' },
+	outfile: 'dist/index.css',
+	plugins: [ sassPlugin() ],
+	target: [ 'firefox140', 'chrome140' ],
 })

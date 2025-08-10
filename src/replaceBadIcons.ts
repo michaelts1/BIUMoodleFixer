@@ -1,6 +1,5 @@
 import { $m, log } from './utils'
 import { icons, ogIcons } from './iconsData'
-import css from './style/replaceBadIcons.scss'
 
 // All the icons that we want to replace have their `src` URL prefixed by this string
 const ICON_URL_PREFIX = 'https://lemida.biu.ac.il/theme/image.php/learnr'
@@ -32,8 +31,6 @@ export function replaceBadIcons() {
 			el.classList.add('nofilter')
 		})
 	}
-
-	GM_addStyle(css)
 
 	log('Replace Bad Icons applied')
 }

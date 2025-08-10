@@ -1,5 +1,4 @@
 import { $m, log } from './utils'
-import css from './style/courseListRevamp.scss'
 
 export function courseListRevamp() {
 	const courseLinks = $m<HTMLElement>('.block-fcl__list__item--course a')
@@ -19,8 +18,6 @@ export function courseListRevamp() {
 		courseLink.replaceChild(spanCourseName, courseTextNode)
 		courseLink.appendChild(spanCourseNumber)
 	}
-
-	GM_addStyle(css)
 
 	log('Course List Revamp applied')
 }

@@ -6,6 +6,9 @@
 #topofscroll {
 	.activityiconcontainer.custom-icon {
 		background: none !important;
+		img {
+			content: none !important;
+		}
 	}
 
 	.nofilter {
