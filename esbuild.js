@@ -1,32 +1,24 @@
 import { build } from 'esbuild'
-import { sassPlugin } from 'esbuild-sass-plugin'
 
-const USERSCRIPT_BANNER = {
-	js: `// ==UserScript==
-// @name        BIU Moodle Fixer
-// @namespace   Violentmonkey Scripts
-// @match       https://lemida.biu.ac.il/*
-// @grant       GM_addStyle
-// @version     1.0
-// @author      Michael Tsaban
-// @description Partially fixes the new Moodle design.
-// ==/UserScript==
-  `,
-}
-
-await build({
-	banner: USERSCRIPT_BANNER,
+build({
 	bundle: true,
-	entryPoints: ['src/index.ts'],
-	legalComments: 'inline',
+	entryPoints: ['src/content/index.ts'],
 	outfile: 'dist/index.js',
-	target: [ 'firefox140', 'chrome140' ],
 })
 
-await build({
-	entryPoints: ['src/style/index.scss'],
-	loader: { '.css': 'css', '.scss': 'css' },
+build({
+	bundle: true,
+	entryPoints: ['src/content/style/index.css'],
 	outfile: 'dist/index.css',
-	plugins: [ sassPlugin() ],
-	target: [ 'firefox140', 'chrome140' ],
+})
+
+build({
+	bundle: true,
+	entryPoints: ['src/options/options.ts'],
+	outfile: 'dist/options.js',
+})
+
+build({
+	entryPoints: ['src/options/options.css'],
+	outfile: 'dist/options.css',
 })

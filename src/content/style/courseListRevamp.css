@@ -5,8 +5,7 @@
 .text-overflow-ellipsis {
 	overflow: hidden;
 	white-space: pre;
-	text-overflow: "… ";
-	/* Also add a space afterwards */
+	text-overflow: "… "; /* Also add a space afterwards */
 }
 
 /*

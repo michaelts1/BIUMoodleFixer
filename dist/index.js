@@ -1,51 +1,12 @@
-// ==UserScript==
-// @name        BIU Moodle Fixer
-// @namespace   Violentmonkey Scripts
-// @match       https://lemida.biu.ac.il/*
-// @grant       GM_addStyle
-// @version     1.0
-// @author      Michael Tsaban
-// @description Partially fixes the new Moodle design.
-// ==/UserScript==
-  
 "use strict";
 (() => {
-  // src/options.ts
-  /*!
-   *
-   *    ███████╗███████╗████████╗████████╗██╗███╗   ██╗ ██████╗ ███████╗
-   *    ██╔════╝██╔════╝╚══██╔══╝╚══██╔══╝██║████╗  ██║██╔════╝ ██╔════╝
-   *    ███████╗█████╗     ██║      ██║   ██║██╔██╗ ██║██║  ███╗███████╗
-   *    ╚════██║██╔══╝     ██║      ██║   ██║██║╚██╗██║██║   ██║╚════██║
-   *    ███████║███████╗   ██║      ██║   ██║██║ ╚████║╚██████╔╝███████║
-   *    ╚══════╝╚══════╝   ╚═╝      ╚═╝   ╚═╝╚═╝  ╚═══╝ ╚═════╝ ╚══════╝
-   *
-   * Feel free to change these the boolean values below to turn on/off components of this userscript :)
-   *
-   */
-  var options = {
-    /** Course List Revamp: Improves the course list in the left sidebar */
-    courseListRevamp: true,
-    /** Padding-Margin: Various fixes for improving space utilization */
-    paddingMargin: true,
-    /** Replaces the new, monotone icons with the old icons and other colorful icons */
-    replaceBadIcons: true
-  };
-  /*!
-   *
-   *
-   * You should only touch the code below if you understand what you are doing :)
-   *
-   *
-   */
-
   // src/utils.ts
   var $m = document.querySelectorAll.bind(document);
   var log = (...args) => {
     console.log(`[BIU Moodle Fixer @ ${(/* @__PURE__ */ new Date()).toLocaleTimeString()}]:`, ...args);
   };
 
-  // src/courseListRevamp.ts
+  // src/content/courseListRevamp.ts
   function courseListRevamp() {
     const courseLinks = $m(".block-fcl__list__item--course a");
     for (const courseLink of courseLinks) {
@@ -61,14 +22,29 @@
     log("Course List Revamp applied");
   }
 
-  // src/paddingMargin.ts
+  // src/getSettings.ts
+  var DEFAULT_OPTIONS = {
+    courseListRevamp: true,
+    paddingMargin: false,
+    restoreOldIcons: false
+  };
+  async function getSettings() {
+    let settings = await browser.storage.sync.get();
+    if (!settings || Object.keys(settings).length === 0) {
+      await browser.storage.sync.set(DEFAULT_OPTIONS);
+      settings = await browser.storage.sync.get();
+    }
+    return settings;
+  }
+
+  // src/content/paddingMargin.ts
   var PADDING_MARGIN_CLASSNAME = "biu-fixer-padding-margin-on";
   function paddingMargin() {
     $m(".block-fcl__list__item--course").forEach((el) => el.classList.add(PADDING_MARGIN_CLASSNAME));
     log("PaddingMargin applied");
   }
 
-  // src/iconsData.ts
+  // src/content/iconsData.ts
   var ogIcons = {
     archive: browser.runtime.getURL("icons/old/low res/archive-24.png"),
     audio: browser.runtime.getURL("icons/old/low res/audio-24.png"),
@@ -108,7 +84,7 @@
     scorm: browser.runtime.getURL("icons/custom/SCORM Interactive.png")
   };
 
-  // src/replaceBadIcons.ts
+  // src/content/restoreOldIcons.ts
   var ICON_URL_PREFIX = "https://lemida.biu.ac.il/theme/image.php/learnr";
   var fixedIconsMap = {
     "assign": icons.assignment,
@@ -126,7 +102,7 @@
       return currentObj;
     }, {})
   };
-  function replaceBadIcons() {
+  function restoreOldIcons() {
     for (const [oldSrcInfix, newSrc] of Object.entries(fixedIconsMap)) {
       const selector = `.activityicon[src^="${ICON_URL_PREFIX}"][src*="${oldSrcInfix}"], .icon[src^="${ICON_URL_PREFIX}"][src*="${oldSrcInfix}"]`;
       $m(selector).forEach((el) => {
@@ -138,8 +114,12 @@
     log("Replace Bad Icons applied");
   }
 
-  // src/index.ts
-  if (options.courseListRevamp) courseListRevamp();
-  if (options.replaceBadIcons) replaceBadIcons();
-  if (options.paddingMargin) paddingMargin();
+  // src/content/index.ts
+  async function init() {
+    const settings = await getSettings();
+    if (settings.courseListRevamp) courseListRevamp();
+    if (settings.restoreOldIcons) restoreOldIcons();
+    if (settings.paddingMargin) paddingMargin();
+  }
+  init();
 })();

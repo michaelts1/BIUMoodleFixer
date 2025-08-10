@@ -15,7 +15,6 @@
     "@typescript-eslint/eslint-plugin": "^8.39.0",
     "@typescript-eslint/parser": "^8.39.0",
     "esbuild": "^0.25.8",
-    "esbuild-sass-plugin": "^3.3.1",
     "eslint": "^8.48.0",
     "typescript": "^5.9.2"
   }

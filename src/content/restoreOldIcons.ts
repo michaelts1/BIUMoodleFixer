@@ -1,4 +1,4 @@
-import { $m, log } from './utils'
+import { $m, log } from '../utils'
 import { icons, ogIcons } from './iconsData'
 
 // All the icons that we want to replace have their `src` URL prefixed by this string
@@ -22,7 +22,7 @@ const fixedIconsMap = {
 	}, ({} as Record<string, string>)),
 }
 
-export function replaceBadIcons() {
+export function restoreOldIcons() {
 	for (const [oldSrcInfix, newSrc] of Object.entries(fixedIconsMap)) {
 		const selector = `.activityicon[src^="${ICON_URL_PREFIX}"][src*="${oldSrcInfix}"], .icon[src^="${ICON_URL_PREFIX}"][src*="${oldSrcInfix}"]`
 		$m<HTMLImageElement>(selector).forEach(el => {

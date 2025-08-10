@@ -49,17 +49,16 @@ p {
 	display: none !important;
 }
 
-$header-height: 30px;
-
 /* The header of a sidebar. Contains only the 'close' button */
 .drawerheader {
-	height: $header-height !important;
+	height: 30px !important;
 	padding-top: 5px !important;
 }
 
 /* The content of a sidebar */
 .drawercontent {
-	height: calc(100% - $header-height) !important;
+	/* calc(100% - .drawerheader { height }) */
+	height: calc(100% - 30px) !important;
 }
 
 #course-index {

@@ -1,0 +1,48 @@
+.hidden {
+  display: none !important;
+}
+body {
+  --biu-background: #f5faf0;
+  --biu-text-primary: #004128;
+  --biu-text-secondary: #006937;
+  --biu-active: #78cde6;
+  background: var(--biu-background);
+  color: var(--biu-text-primary);
+  font-family: sans-serif;
+  padding: 0 2em 0.5em 2em;
+}
+form {
+  margin: 0 auto;
+  max-width: 30em;
+}
+h1 {
+  color: var(--biu-text-secondary);
+  margin-top: 0.3em;
+  text-align: center;
+}
+.option {
+  margin-bottom: 1.25em;
+  padding: 1em;
+  background: white;
+  border-radius: 1em;
+  box-shadow: 0 1px 4px color-mix(in srgb, var(--biu-text-primary) 20%, transparent);
+  input {
+    accent-color: var(--biu-active);
+    cursor: pointer;
+    height: 1.3em;
+    margin: 2px 1em 2px 0;
+    width: 1.3em;
+  }
+  label {
+    font-size: large;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  p {
+    margin: 1em 1em 0 2.25em;
+  }
+}
+#message {
+  margin: 1em auto 0 auto;
+  width: fit-content;
+}

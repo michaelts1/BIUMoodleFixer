@@ -1,4 +1,4 @@
-import { $m, log } from './utils'
+import { $m, log } from '../utils'
 
 const PADDING_MARGIN_CLASSNAME = 'biu-fixer-padding-margin-on'
 

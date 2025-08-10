@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>BIU Lamda Fixer Settings</title>
+		<link rel="stylesheet" href="dist/options.css">
+	</head>
+	<body>
+		<h1>BIU Lamda Fixer Settings</h1>
+		<form>
+			<div class="option">
+				<label>
+					<input type="checkbox" id="courseListRevamp">
+					Course List Revamp
+				</label>
+				<p>Improves the course list in the left sidebar</p>
+			</div>
+			<div class="option">
+				<label>
+					<input type="checkbox" id="paddingMargin">
+					Reduce Padding/Margin
+				</label>
+				<p>Increases space utilization by reducing the amount of wasted whitespace</p>
+			</div>
+			<div class="option">
+				<label>
+					<input type="checkbox" id="restoreOldIcons">
+					Restore Old Icons
+				</label>
+				<p>Replaces the new, monotone icons with the old icons and other colorful icons</p>
+			</div>
+		</form>
+
+		<p id="message" class="hidden">Reload the page apply changes :)</p>
+
+		<script type="module" src="dist/options.js"></script>
+	</body>
+</html>

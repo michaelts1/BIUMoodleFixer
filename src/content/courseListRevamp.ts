@@ -1,4 +1,4 @@
-import { $m, log } from './utils'
+import { $m, log } from '../utils'
 
 export function courseListRevamp() {
 	const courseLinks = $m<HTMLElement>('.block-fcl__list__item--course a')
