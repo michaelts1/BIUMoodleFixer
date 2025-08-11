@@ -15,6 +15,8 @@
 		}
 	},
 
+	"key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAt5oGlOmmQmOmv1haGd2yxxP/6u4FA58wu34f5oo8GDTcpmvlGsoEpwLLBWsDCepCBlytXiyNwS1PV0dIc5DhlgOg+tQ2ZKDNBvl77yqufjKWuZf5gEY2B/oo6C/XQDW+vcmTvucqMkJWFKpRgWDQpFd/x8aqdsoKrOtBB0l+2H/kkZRjyuBfrLWt4EfrfuMrPUdU1fZ/ZZEJWdCo90h/VyWV6ops6in3k9/t7bXliv6tQXIVJgpkJkBHICcWQedNl51JZwjf/kV0Vm9m1TcguWHSS1oGZ+rQ5iKZm/G2c/ir8O0q7WeFPSRFEQsxC92pickjnqbj2dzeH0uPiUhFBwIDAQAB",
+
 	"icons": {
 		"32": "icons/favicon/favicon-32.png",
 		"64": "icons/favicon/favicon-64.png",
