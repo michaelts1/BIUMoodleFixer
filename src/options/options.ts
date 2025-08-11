@@ -6,7 +6,7 @@ function updateSetting(event: Event) {
 	const target = event.target as HTMLInputElement
 	const key = target.dataset.setting as string
 	const value = target.checked
-	browser.storage.sync.set({ [key]: value })
+	chrome.storage.sync.set({ [key]: value })
 
 	document.querySelector('#message')?.classList.remove('hidden')
 }

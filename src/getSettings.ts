@@ -5,10 +5,10 @@ const DEFAULT_OPTIONS = {
 }
 
 export async function getSettings() {
-	let settings = await browser.storage.sync.get()
+	let settings = await chrome.storage.sync.get()
 	if (!settings || Object.keys(settings).length === 0) {
-		await browser.storage.sync.set(DEFAULT_OPTIONS)
-		settings = await browser.storage.sync.get()
+		await chrome.storage.sync.set(DEFAULT_OPTIONS)
+		settings = await chrome.storage.sync.get()
 	}
 
 	return settings
