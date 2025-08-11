@@ -6,6 +6,6 @@ export default tsEslint.config([
 	tsEslint.configs.strict,
 	tsEslint.configs.stylistic,
 	{
-		ignores: ['dist/'],
+		ignores: ['build', 'dist'],
 	},
 ])
