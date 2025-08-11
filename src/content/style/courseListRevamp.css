@@ -2,39 +2,41 @@
 	Helper classes for courseListRevamp
 */
 
-.text-overflow-ellipsis {
-	overflow: hidden;
-	white-space: pre;
-	text-overflow: "… "; /* Also add a space afterwards */
-}
-
-/*
-	Other rules
-*/
-
-/* LIs containing the links to the courses */
-.block-fcl__list__item--course {
-	margin-right: 10px !important;
-	padding: 5px 10px 5px 0 !important;
-
-	/* A custom class that is being applied by `paddingMargin` (if its enabled) */
-	&.biu-fixer-padding-margin-on {
-		padding: 3px 5px 3px 0 !important;
+body.course-list-revamp {
+	.text-overflow-ellipsis {
+		overflow: hidden;
+		white-space: pre;
+		text-overflow: "… "; /* Also add a space afterwards */
 	}
 
-	&:not(:first-of-type) {
-		border-top: 1px solid #aaa !important;
-	}
+	/*
+		Other rules
+	*/
 
-	/* The link to a course */
-	.block-fcl__list__link {
-		display: grid;
-		/* Grid: 24px for icon, min-content for course number and the rest for the course name */
-		grid-template: "a b c" 100% / 24px auto min-content;
-	}
+	/* LIs containing the links to the courses */
+	.block-fcl__list__item--course {
+		margin-right: 10px !important;
+		padding: 5px 10px 5px 0 !important;
 
-	/* Usually holds the course number in the link */
-	.block-fcl__list__link::after {
-		content: none !important;
+		/* A custom class that is being applied by `paddingMargin` (if its enabled) */
+		&.biu-fixer-padding-margin-on {
+			padding: 3px 5px 3px 0 !important;
+		}
+
+		&:not(:first-of-type) {
+			border-top: 1px solid #aaa !important;
+		}
+
+		/* The link to a course */
+		.block-fcl__list__link {
+			display: grid;
+			/* Grid: 24px for icon, min-content for course number and the rest for the course name */
+			grid-template: "a b c" 100% / 24px auto min-content;
+		}
+
+		/* Usually holds the course number in the link */
+		.block-fcl__list__link::after {
+			content: none !important;
+		}
 	}
 }

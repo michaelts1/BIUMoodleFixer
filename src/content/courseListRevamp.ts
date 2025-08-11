@@ -1,6 +1,8 @@
 import { $m, log } from '../utils'
 
 export function courseListRevamp() {
+	document.body.classList.add('course-list-revamp')
+
 	const courseLinks = $m<HTMLElement>('.block-fcl__list__item--course a')
 	for (const courseLink of courseLinks) {
 		// The third out of the three nodes contains the name of the course

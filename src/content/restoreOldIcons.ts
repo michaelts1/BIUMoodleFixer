@@ -23,6 +23,8 @@ const fixedIconsMap = {
 }
 
 export function restoreOldIcons() {
+	document.body.classList.add('restore-old-icons')
+
 	for (const [oldSrcInfix, newSrc] of Object.entries(fixedIconsMap)) {
 		const selector = `.activityicon[src^="${ICON_URL_PREFIX}"][src*="${oldSrcInfix}"], .icon[src^="${ICON_URL_PREFIX}"][src*="${oldSrcInfix}"]`
 		$m<HTMLImageElement>(selector).forEach(el => {

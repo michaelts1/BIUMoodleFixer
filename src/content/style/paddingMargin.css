@@ -1,127 +1,129 @@
-/* List of courses in each semester */
-.block-fcl__list.collapsible {
-	padding-top: 2px !important;
-}
+body.padding-margin {
+	/* List of courses in each semester */
+	.block-fcl__list.collapsible {
+		padding-top: 2px !important;
+	}
 
-/* left-side-panel */
-.drawer.drawer-right {
-	max-width: 330px !important;
-	width: 330px !important;
-}
+	/* left-side-panel */
+	.drawer.drawer-right {
+		max-width: 330px !important;
+		width: 330px !important;
+	}
 
-/* Courses list */
-.block_filtered_course_list .card-body {
-	padding: 5px 10px 0 0 !important;
-}
+	/* Courses list */
+	.block_filtered_course_list .card-body {
+		padding: 5px 10px 0 0 !important;
+	}
 
-/* Fix egregious margins for paragraphs */
-p {
-	margin: 0 0 5px 0 !important;
-}
+	/* Fix egregious margins for paragraphs */
+	p {
+		margin: 0 0 5px 0 !important;
+	}
 
-/* The container of a forum post */
-.forumpost {
-	padding: 0 !important;
+	/* The container of a forum post */
+	.forumpost {
+		padding: 0 !important;
 
-	/* Header of a forum post. 'header.header' is to get a higher specificity than the built-in CSS */
-	header.header {
-		margin-bottom: 0px !important;
-		padding: 5px !important;
-		
-		.mb-3 {
-			margin-bottom: 0 !important;
+		/* Header of a forum post. 'header.header' is to get a higher specificity than the built-in CSS */
+		header.header {
+			margin-bottom: 0px !important;
+			padding: 5px !important;
+			
+			.mb-3 {
+				margin-bottom: 0 !important;
+			}
+		}
+
+		/* Padding to the right of a forum post */
+		.body-content-container .author-groups-container {
+			width: 20px !important;
+		}
+
+		/* 'Reply' and 'direct link' buttons */
+		.post-actions a {
+			padding: 0 0 2px 15px !important;
 		}
 	}
 
-	/* Padding to the right of a forum post */
-	.body-content-container .author-groups-container {
-		width: 20px !important;
+	/* An empty toolbar at the top of the screen */
+	.headerbuttons {
+		display: none !important;
 	}
 
-	/* 'Reply' and 'direct link' buttons */
-	.post-actions a {
-		padding: 0 0 2px 15px !important;
-	}
-}
-
-/* An empty toolbar at the top of the screen */
-.headerbuttons {
-	display: none !important;
-}
-
-/* The header of a sidebar. Contains only the 'close' button */
-.drawerheader {
-	height: 30px !important;
-	padding-top: 5px !important;
-}
-
-/* The content of a sidebar */
-.drawercontent {
-	/* calc(100% - .drawerheader { height }) */
-	height: calc(100% - 30px) !important;
-}
-
-#course-index {
-	/* A sublist item in the right-side-bar */
-	.courseindex-item-content .courseindex-item {
-		padding: 1px 0 !important;
+	/* The header of a sidebar. Contains only the 'close' button */
+	.drawerheader {
+		height: 30px !important;
+		padding-top: 5px !important;
 	}
 
-	/* A sublist title in the right-side-bar */
-	.courseindex-section-title .courseindex-item {
-		padding: 3px 2px !important;
+	/* The content of a sidebar */
+	.drawercontent {
+		/* calc(100% - .drawerheader { height }) */
+		height: calc(100% - 30px) !important;
 	}
 
-	/* A sublist container in the right-side-bar */
-	.courseindex-section {
-		margin-bottom: 5px !important;
-	}
-}
+	#course-index {
+		/* A sublist item in the right-side-bar */
+		.courseindex-item-content .courseindex-item {
+			padding: 1px 0 !important;
+		}
 
-/* The container of an item in a 'course activity' list */
-.activity-wrapper {
-	padding: 0 !important;
-}
+		/* A sublist title in the right-side-bar */
+		.courseindex-section-title .courseindex-item {
+			padding: 3px 2px !important;
+		}
 
-/* An item in a 'course activity' list */
-.activity-item {
-	padding: 5px !important;
-}
-
-/*
-	Margins fix: top header can hide content
-*/
-
-nav.navbar.fixed-top {
-	position: sticky !important;
-}
-
-#page,
-#topofscroll,
-#learnrpage {
-	margin-top: 0 !important;
-}
-
-/* '#topofscroll' is to get a higher specificity than the built-in CSS */
-#topofscroll #learnrpage {
-	padding-top: 2px !important;
-}
-
-/*
-	Homepage tweaks
-*/
-
-/* A course box on the homepage */
-#frontpage-course-list .container-fluid .col-md-4 {
-	padding: 0 10px !important;
-
-	.class-box {
-		height: 125px !important;
-		margin-bottom: 1.25rem !important;
-		padding-right: 0 !important;
+		/* A sublist container in the right-side-bar */
+		.courseindex-section {
+			margin-bottom: 5px !important;
+		}
 	}
 
-	.course-title {
-		display: inline-block;
+	/* The container of an item in a 'course activity' list */
+	.activity-wrapper {
+		padding: 0 !important;
+	}
+
+	/* An item in a 'course activity' list */
+	.activity-item {
+		padding: 5px !important;
+	}
+
+	/*
+		Margins fix: top header can hide content
+	*/
+
+	nav.navbar.fixed-top {
+		position: sticky !important;
+	}
+
+	#page,
+	#topofscroll,
+	#learnrpage {
+		margin-top: 0 !important;
+	}
+
+	/* '#topofscroll' is to get a higher specificity than the built-in CSS */
+	#topofscroll #learnrpage {
+		padding-top: 2px !important;
+	}
+
+	/*
+		Homepage tweaks
+	*/
+
+	/* A course box on the homepage */
+	#frontpage-course-list .container-fluid .col-md-4 {
+		padding: 0 10px !important;
+
+		.class-box {
+			height: 125px !important;
+			margin-bottom: 1.25rem !important;
+			padding-right: 0 !important;
+		}
+
+		.course-title {
+			display: inline-block;
+		}
 	}
 }
