@@ -12,6 +12,7 @@ body {
 	color: var(--biu-text-primary);
 	font-family: sans-serif;
 	padding: 0 2em 0.5em 2em;
+	min-width: 400px;
 }
 
 form {
@@ -48,6 +49,8 @@ h1 {
 
 	p {
 		margin: 1em 1em 0 2.25em;
+		text-wrap: pretty;
+		text-wrap: balance;
 	}
 }
 
