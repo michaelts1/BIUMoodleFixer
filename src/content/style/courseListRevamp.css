@@ -3,24 +3,26 @@
 */
 
 body.course-list-revamp {
+	--courses-sidepanel-width: 22.5rem;
+	--minimap-sidepanel-width: 22.5rem;
+
 	.text-overflow-ellipsis {
 		overflow: hidden;
 		white-space: pre;
-		text-overflow: "… "; /* Also add a space afterwards */
+		text-overflow: ellipsis; /* Chrome 140 does not support string values... */
+		text-overflow: "… "; /* With a space afterwards */
 	}
-
-	/*
-		Other rules
-	*/
 
 	/* LIs containing the links to the courses */
 	.block-fcl__list__item--course {
-		margin-right: 10px !important;
-		padding: 5px 10px 5px 0 !important;
+		margin-inline-start: 10px 0 !important;
+		padding-block: 5px !important;
+		padding-inline: 10px 0 !important;
 
 		/* A custom class that is being applied by `paddingMargin` (if its enabled) */
 		&.biu-fixer-padding-margin-on {
-			padding: 3px 5px 3px 0 !important;
+			padding-block: 3px !important;
+			padding-inline: 5px 0 !important;
 		}
 
 		&:not(:first-of-type) {
@@ -39,4 +41,33 @@ body.course-list-revamp {
 			content: none !important;
 		}
 	}
+
+	/* courses sidepanel (leftside in RTL) */
+	.drawer-right {
+		max-width: var(--courses-sidepanel-width) !important;
+		width: var(--courses-sidepanel-width) !important;
+	}
+
+	/* Main content, when courses side-panel is open.
+		#page-wrapper is to get a higher specificity than the built-in CSS */
+	#page-wrapper #page.show-drawer-right {
+		margin-inline-end: var(--courses-sidepanel-width) !important;
+	}
+
+	/* course minimap sidepanel (rightside in RTL) */
+	.drawer-left {
+		max-width: var(--minimap-sidepanel-width) !important;
+		width: var(--minimap-sidepanel-width) !important;
+	}
+
+	/* Main content, when minimap side-panel is open.
+		#page-wrapper is to get a higher specificity than the built-in CSS */
+	#page-wrapper #page.show-drawer-left {
+		margin-inline-start: var(--minimap-sidepanel-width) !important;
+	}
+
+	/* Completely hide the "draggable" icon, unless it should be visible
+		(by default, it has "visibility: hidden" instead of "display: none" */
+	.dragicon { display: none; }
+	.draggable:hover .dragicon { display: inline-block; }
 }

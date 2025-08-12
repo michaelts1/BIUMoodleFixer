@@ -4,12 +4,6 @@ body.padding-margin {
 		padding-top: 2px !important;
 	}
 
-	/* left-side-panel */
-	.drawer.drawer-right {
-		max-width: 330px !important;
-		width: 330px !important;
-	}
-
 	/* Courses list */
 	.block_filtered_course_list .card-body {
 		padding: 5px 10px 0 0 !important;
@@ -119,7 +113,7 @@ body.padding-margin {
 		.class-box {
 			height: 125px !important;
 			margin-bottom: 1.25rem !important;
-			padding-right: 0 !important;
+			padding-inline-start: 0 !important;
 		}
 
 		.course-title {
