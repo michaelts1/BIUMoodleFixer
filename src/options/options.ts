@@ -11,13 +11,28 @@ function updateSetting(event: Event) {
 	document.querySelector('#message')?.classList.remove('hidden')
 }
 
-async function init() {
+function loadI18n() {
+	const els = $m('[data-i18n]')
+	for (const i18nElement of els as NodeListOf<HTMLElement>) {
+		const key = i18nElement.dataset.i18n as string
+		const localizedStr = chrome.i18n.getMessage(key)
+		i18nElement.textContent = localizedStr
+	}
+}
+
+// Load initial settings and set event listeners
+async function loadSettings() {
 	const settings = await getSettings()
 	for (const settingInput of ($m('.option input') as NodeListOf<HTMLInputElement>)) {
 		const key = settingInput.dataset.setting as string
 		settingInput.checked = settings[key]
 		settingInput.addEventListener('change', updateSetting)
 	}
+}
+
+async function init() {
+	loadI18n()
+	await loadSettings()
 }
 
 init()

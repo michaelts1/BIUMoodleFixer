@@ -1,0 +1,21 @@
+{
+	"extensionName": {
+		"message": "BIU Lamda Fixer",
+		"description": "Name of extension"
+	},
+
+	"extensionDescription": {
+		"message": "Various styling and QoL fixes for the BIU Lamda platform. All features are toggable.",
+		"description": "Short description of the extension"
+	},
+
+	"extensionAuthor": {
+		"message": "Michael Tsaban",
+		"description": "Author of extension"
+	},
+
+	"settingsTitle": {
+		"message": "BIU Lamda Fixer Settings",
+		"description": "Title that appears in the settings page, and when hovering over the options button in the toolbar"
+	}
+}

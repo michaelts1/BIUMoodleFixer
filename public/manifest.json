@@ -1,11 +1,12 @@
 {
 	"manifest_version": 3,
-	"name": "BIU Lamda Fixer",
+	"name": "__MSG_extensionName__",
 	"version": "0.1.0",
 
-	"description": "Various styling and QoL fixes for the BIU Lamda platform. All features are toggable.",
+	"description": "__MSG_extensionDescription__",
+	"default_locale": "en",
 
-	"author": "Michael Tsaban",
+	"author": "__MSG_extensionAuthor__",
 	"homepage_url": "https://github.com/michaelts1/BIUMoodleFixer",
 
 	"browser_specific_settings": {
@@ -25,7 +26,7 @@
 	},
 
 	"action": {
-		"default_title": "BIU Lamda Fixer Settings",
+		"default_title": "__MSG_settingsTitle__",
 		"default_popup": "options.html"
 	},
 

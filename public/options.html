@@ -2,36 +2,36 @@
 <html lang="en">
 	<head>
 		<meta charset="utf-8">
-		<title>BIU Lamda Fixer Settings</title>
+		<title data-i18n="settingsTitle"></title>
 		<link rel="stylesheet" href="./options.css">
 	</head>
 	<body>
-		<h1>BIU Lamda Fixer Settings</h1>
+		<h1 data-i18n="settingsTitle"></h1>
 		<form>
 			<div class="option">
 				<label>
 					<input type="checkbox" data-setting="courseListRevamp">
-					Course List Revamp
+					<span data-i18n="settingTitleCourseListRevamp"></span>
 				</label>
-				<p>Improves the course list in the left sidebar</p>
+				<p data-i18n="settingDescCourseListRevamp"></p>
 			</div>
 			<div class="option">
 				<label>
 					<input type="checkbox" data-setting="paddingMargin">
-					Reduce Padding/Margin
+					<span data-i18n="settingTitlePaddingMargin"></span>
 				</label>
-				<p>Increases space utilization by reducing the amount of wasted whitespace</p>
+				<p data-i18n="settingDescPaddingMargin"></p>
 			</div>
 			<div class="option">
 				<label>
 					<input type="checkbox" data-setting="restoreOldIcons">
-					Restore Old Icons
+					<span data-i18n="settingTitleRestoreOldIcons"></span>
 				</label>
-				<p>Replaces the new, monotone icons with the old icons and other colorful icons</p>
+				<p data-i18n="settingDescRestoreOldIcons"></p>
 			</div>
 		</form>
 
-		<p id="message" class="hidden">Reload the page apply changes :)</p>
+		<p id="message" class="hidden" data-i18n="reloadPageMsg"></p>
 
 		<script type="module" src="./options.js"></script>
 	</body>
