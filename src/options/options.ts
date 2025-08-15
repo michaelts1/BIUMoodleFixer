@@ -8,7 +8,7 @@ function updateSetting(event: Event) {
 	const value = target.checked
 	chrome.storage.sync.set({ [key]: value })
 
-	document.querySelector('#message')?.classList.remove('hidden')
+	document.querySelector('#message')?.classList.remove('invisible')
 }
 
 function loadI18n() {

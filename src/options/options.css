@@ -1,5 +1,13 @@
+html {
+	direction: __MSG_@@bidi_dir__;
+}
+
 .hidden {
 	display: none !important;
+}
+
+.invisible {
+	visibility: hidden !important;
 }
 
 body {
@@ -12,12 +20,16 @@ body {
 	color: var(--biu-text-primary);
 	font-family: sans-serif;
 	padding: 0 2em 0.5em 2em;
-	min-width: 400px;
+
+	/* The default for action popup is 16px in Firefox and 12px in Chrome.
+		This affects many aspects of the final layout, so for consistency
+		we fix it to 16px. */
+	font-size: 16px;
 }
 
 form {
 	margin: 0 auto;
-	max-width: 30em;
+	width: 25em;
 }
 
 h1 {
@@ -27,30 +39,31 @@ h1 {
 }
 
 .option {
-	margin-bottom: 1.25em;
-	padding: 1em;
 	background: white;
 	border-radius: 1em;
 	box-shadow: 0 1px 4px color-mix(in srgb, var(--biu-text-primary) 20%, transparent);
+	margin-bottom: 1.25em;
+	padding: 1em;
 
 	input {
 		accent-color: var(--biu-active);
 		cursor: pointer;
 		height: 1.3em;
-		margin: 2px 1em 2px 0;
+		margin-block: 2px;
+		margin-inline: 0 1em;
 		width: 1.3em;
 	}
 	
 	label {
+		cursor: pointer;
 		font-size: large;
 		font-weight: bold;
-		cursor: pointer;
 	}
 
 	p {
-		margin: 1em 1em 0 2.25em;
-		text-wrap: pretty;
-		text-wrap: balance;
+		font-size: medium;
+		margin-block: 1em 0;
+		margin-inline: 2.25em 0;
 	}
 }
 
