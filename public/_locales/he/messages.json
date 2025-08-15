@@ -1,0 +1,56 @@
+{
+	"extensionName": {
+		"message": "תיקוני למדא בר־אילן",
+		"description": "Name of extension"
+	},
+
+	"extensionDescription": {
+		"message": "תיקונים שונים לעיצוב הלמדא של בר אילן, ושיפורים נוספים. כל אפשרות בפני עצמה ניתן לכבות או להדליק.",
+		"description": "Short description of the extension"
+	},
+
+	"extensionAuthor": {
+		"message": "מיכאל צבאן",
+		"description": "Author of extension"
+	},
+
+	"settingsTitle": {
+		"message": "תיקוני למדא בר־אילן: הגדרות",
+		"description": "Title that appears in the settings page, and when hovering over the options button in the toolbar"
+	},
+
+	"settingTitleCourseListRevamp": {
+		"message": "שכלול רשימת הקורסים",
+		"description": "The title in the settings page for the Course List Revamp setting"
+	},
+
+	"settingTitlePaddingMargin": {
+		"message": "הפחתת מרווחים ריקים",
+		"description": "The title in the settings page for the Padding-Margin setting"
+	},
+
+	"settingTitleRestoreOldIcons": {
+		"message": "שחזור הסמלילים הישנים",
+		"description": "The title in the settings page for the Restore Old Icons setting"
+	},
+
+	"settingDescCourseListRevamp": {
+		"message": "משפר את העיצוב החזותי ואת השימושיות של תפריט רשימת הקורסים הצדדי",
+		"description": "The description in the settings page for the Course List Revamp setting"
+	},
+
+	"settingDescPaddingMargin": {
+		"message": "מגדיל את הנצילות של הדף על ידי הקטנת מרווחים מיותרים בין החלקים השונים בדף",
+		"description": "The description in the settings page for the Padding-Margin setting"
+	},
+
+	"settingDescRestoreOldIcons": {
+		"message": "מחליף את הסמלילים החדשים והחד־גוניים, בסמלילים הישנים הצבעוניים לצד מספר סמלילים נוספים",
+		"description": "The description in the settings page for the Restore Old Icons setting"
+	},
+
+	"reloadPageMsg": {
+		"message": "יש לטעון מחדש את הלשונית כדי להחיל את השינויים :)",
+		"description": "Reminds the user to reload the page after changin a setting"
+	}
+}

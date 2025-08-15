@@ -1,0 +1,56 @@
+{
+	"extensionName": {
+		"message": "BIU Lamda Fixer",
+		"description": "Name of extension"
+	},
+
+	"extensionDescription": {
+		"message": "Various styling and QoL fixes for the BIU Lamda platform. All features are toggable.",
+		"description": "Short description of the extension"
+	},
+
+	"extensionAuthor": {
+		"message": "Michael Tsaban",
+		"description": "Author of extension"
+	},
+
+	"settingsTitle": {
+		"message": "BIU Lamda Fixer Settings",
+		"description": "Title that appears in the settings page, and when hovering over the options button in the toolbar"
+	},
+
+	"settingTitleCourseListRevamp": {
+		"message": "Course List Revamp",
+		"description": "The title in the settings page for the Course List Revamp setting"
+	},
+
+	"settingTitlePaddingMargin": {
+		"message": "Reduce Padding/Margin",
+		"description": "The title in the settings page for the Padding-Margin setting"
+	},
+
+	"settingTitleRestoreOldIcons": {
+		"message": "Restore Old Icons",
+		"description": "The title in the settings page for the Restore Old Icons setting"
+	},
+
+	"settingDescCourseListRevamp": {
+		"message": "Improves the course list in the left sidebar",
+		"description": "The description in the settings page for the Course List Revamp setting"
+	},
+
+	"settingDescPaddingMargin": {
+		"message": "Increases space utilization by reducing the amount of wasted whitespace",
+		"description": "The description in the settings page for the Padding-Margin setting"
+	},
+
+	"settingDescRestoreOldIcons": {
+		"message": "Replaces the new, monotone icons with the old icons and other colorful icons",
+		"description": "The description in the settings page for the Restore Old Icons setting"
+	},
+
+	"reloadPageMsg": {
+		"message": "Reload the page to apply changes :)",
+		"description": "Reminds the user to reload the page after changin a setting"
+	}
+}
