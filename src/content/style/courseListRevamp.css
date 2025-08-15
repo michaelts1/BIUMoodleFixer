@@ -49,8 +49,10 @@ body.course-list-revamp {
 	}
 
 	/* Main content, when courses side-panel is open.
-		#page-wrapper is to get a higher specificity than the built-in CSS */
-	#page-wrapper #page.show-drawer-right {
+		Only on the main page ("site index"), the drawer is always shown and
+		so the main page should also be resized accordingly.
+		#page-wrapper is to get a higher specificity than the built-in CSS. */
+	&#page-site-index #page, #page-wrapper #page.show-drawer-right {
 		margin-inline-end: var(--courses-sidepanel-width) !important;
 	}
 
