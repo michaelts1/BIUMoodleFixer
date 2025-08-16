@@ -20,7 +20,7 @@
 	},
 
 	"settingTitleCourseListRevamp": {
-		"message": "Course List Revamp",
+		"message": "Sidebars Revamp",
 		"description": "The title in the settings page for the Course List Revamp setting"
 	},
 
@@ -35,7 +35,7 @@
 	},
 
 	"settingDescCourseListRevamp": {
-		"message": "Improves the course list in the left sidebar",
+		"message": "Improves the Courses List and Course Content sidebars",
 		"description": "The description in the settings page for the Course List Revamp setting"
 	},
 

@@ -20,7 +20,7 @@
 	},
 
 	"settingTitleCourseListRevamp": {
-		"message": "שכלול רשימת הקורסים",
+		"message": "שכלול תפריטי הצד",
 		"description": "The title in the settings page for the Course List Revamp setting"
 	},
 
@@ -35,7 +35,7 @@
 	},
 
 	"settingDescCourseListRevamp": {
-		"message": "משפר את העיצוב החזותי ואת השימושיות של תפריט רשימת הקורסים הצדדי",
+		"message": "משפר את העיצוב החזותי ואת השימושיות של תפריטי הצד של רשימת הקורסים ותוכן הקורס",
 		"description": "The description in the settings page for the Course List Revamp setting"
 	},
 
