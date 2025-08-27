@@ -48,12 +48,15 @@ body.course-list-revamp {
 		width: var(--courses-sidepanel-width) !important;
 	}
 
-	/* Main content, when courses side-panel is open.
-		Only on the main page ("site index"), the drawer is always shown and
-		so the main page should also be resized accordingly.
-		#page-wrapper is to get a higher specificity than the built-in CSS. */
-	&#page-site-index #page, #page-wrapper #page.show-drawer-right {
-		margin-inline-end: var(--courses-sidepanel-width) !important;
+	@media (992px <= width) {
+		/* 	Main content, when courses side-panel is open.
+			Only on the main page ("site index"), the drawer is always shown
+			and so the main page should also be resized accordingly.
+			#page-wrapper is to get a higher specificity than the built-in CSS.
+		*/
+		&#page-site-index #page, #page-wrapper #page.show-drawer-right {
+			margin-inline-end: var(--courses-sidepanel-width) !important;
+		}
 	}
 
 	/* course minimap sidepanel (rightside in RTL) */
