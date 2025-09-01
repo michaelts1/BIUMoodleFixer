@@ -11,6 +11,7 @@ const transpile = (inFile, outFile) => build({
 const transpileAll = () => Promise.all([
 	transpile('src/content/index.ts', 'build/index.js'),
 	transpile('src/content/style/index.css', 'build/index.css'),
+	transpile('src/background.ts', 'build//background.js'),
 	transpile('src/options/options.ts', 'build/options.js'),
 	transpile('src/options/options.css', 'build/options.css'),
 	cp('./public', './build', { force: true, recursive: true }),

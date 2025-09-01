@@ -30,6 +30,11 @@
 		"default_popup": "options.html"
 	},
 
+	"background": {
+		"scripts": ["./background.js"],
+		"service_worker": "./background.js"
+	},
+
 	"content_scripts": [
 		{
 			"css": ["./index.css"],
@@ -37,6 +42,11 @@
 			"matches": ["https://lemida.biu.ac.il/*"]
 		}
 	],
+
+	"options_ui": {
+		"page": "./options.html",
+		"open_in_tab": true
+	},
 
 	"web_accessible_resources": [
 		{
