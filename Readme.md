@@ -2,6 +2,8 @@
 
 **BIU Lamda Fixer** is a browser extension that provides various styling and quality-of-life improvements for the BIU Lamda (Moodle) platform. All features are toggleable via the extension's settings.
 
+Install BIU Lamda Fixer for [**Firefox**](https://addons.mozilla.org/firefox/addon/biu-lamda-fixer) or for [**Google Chrome**](https://chromewebstore.google.com/detail/biu-lamda-fixer/abfogdjmbkdcnaglkpididmdhfkbpifn).
+
 ## Features
 
 - **Course List Revamp:** Improves the course list in the left sidebar.
