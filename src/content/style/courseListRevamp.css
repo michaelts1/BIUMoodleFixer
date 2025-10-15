@@ -55,7 +55,8 @@ body.course-list-revamp {
 			#page-wrapper is to get a higher specificity than the built-in CSS.
 		*/
 		&#page-site-index #page, #page-wrapper #page.show-drawer-right {
-			margin-inline-end: var(--courses-sidepanel-width) !important;
+			margin-right: var(--courses-sidepanel-width) !important;
+			padding-right: 0;
 		}
 	}
 
@@ -68,7 +69,8 @@ body.course-list-revamp {
 	/* Main content, when minimap side-panel is open.
 		#page-wrapper is to get a higher specificity than the built-in CSS */
 	#page-wrapper #page.show-drawer-left {
-		margin-inline-start: var(--minimap-sidepanel-width) !important;
+		margin-left: var(--minimap-sidepanel-width) !important;
+		padding-left: 0;
 	}
 
 	/* Completely hide the "draggable" icon, unless it should be visible
