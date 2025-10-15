@@ -1,4 +1,4 @@
-import { $m, log } from '../utils'
+import { log } from '../utils'
 import { icons, ogIcons } from './iconsData'
 
 // All the icons that we want to replace have their `src` URL prefixed by this string
@@ -14,25 +14,49 @@ const fixedIconsMap = {
 	'scorm'      : icons.scorm,
 	// If you find the original icons for the above, please let me know!
 
-	'folder'  : ogIcons.folder,
-	'glossary': ogIcons.glossary,
-	...Object.entries(ogIcons).reduce((currentObj, [iconName, iconData]) => {
-		currentObj[iconName + '-24'] = iconData
-		return currentObj
-	}, ({} as Record<string, string>)),
+	...ogIcons,
 }
 
+/**
+ * As of October 2025, some icons are created dinamically *after* the page has completely loaded (from
+ * the browser's perspective). This interferes with our previous approach of replacing the `src` of
+ * the images dynamically.
+ * Therefore, we now create general CSS-rules that will effectively apply our new source URL to all
+ * icons as they are created.
+ *
+ * While the new method can be converted to statically output the CSS code based on the icon map,
+ * generating it dynamically is somewhat more readable. Specifically, note that the generated code
+ * can be *fully determined* by only looking at the values of `fixedIconsMap`.
+ */
 export function restoreOldIcons() {
 	document.body.classList.add('restore-old-icons')
 
-	for (const [oldSrcInfix, newSrc] of Object.entries(fixedIconsMap)) {
-		const selector = `.activityicon[src^="${ICON_URL_PREFIX}"][src*="${oldSrcInfix}"], .icon[src^="${ICON_URL_PREFIX}"][src*="${oldSrcInfix}"]`
-		$m<HTMLImageElement>(selector).forEach(el => {
-			el.src = newSrc
-			el.parentElement?.classList.add('custom-icon')
-			el.classList.add('nofilter')
-		})
+	let css = ''
+	for (const [identifier, newSrc] of Object.entries(fixedIconsMap)) {
+		/* The `src` attribute is how we detect the type of the icon. They keyword will either be
+			immediately after the common prefix, or it will be in the middle of the URL, in which
+			case it will be immediately followed by a question mark. */
+		const selector =
+			':is(.icon, .activityicon)'
+			+ `:is([src^="${ICON_URL_PREFIX}/${identifier}/"], [src^="${ICON_URL_PREFIX}"][src*="/${identifier}?"])`
+
+		// The first block applies to the icon itself, and the second block applies to its parent
+		const iterationCSS = `
+	${selector} {
+		content: url("${newSrc}") !important; /* Replace icon */
+		filter: none !important; /* Disable black-only filter */
 	}
+	:has(> :is(${selector})) {
+		background: none !important;
+	}`
+
+		css += iterationCSS
+	}
+
+	const styleEl = document.createElement('style')
+	// '#page-wrapper' is to get a higher specificity than the built-in CSS
+	styleEl.textContent = `body.restore-old-icons #page-wrapper { ${css} }`
+	document.body.appendChild(styleEl)
 
 	log('Replace Bad Icons applied')
 }
