@@ -7,6 +7,7 @@ const ICON_URL_PREFIX = 'https://lemida.biu.ac.il/theme/image.php/learnr'
 const fixedIconsMap = {
 	'assign'     : icons.assignment,
 	'forum'      : icons.forum,
+	'hsuforum'   : icons.forum,
 	'url'        : icons.link,
 	'page'       : icons.page,
 	'mod_page'   : icons.page,
