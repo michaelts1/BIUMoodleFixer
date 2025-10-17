@@ -1,4 +1,31 @@
 body.padding-margin {
+	/*
+		Margins fix: top header can hide content
+	*/
+
+	/* `body` has a height of 100%, causing problems when scrolling far down... */
+	height: unset !important;
+
+	/* The nav bar covers the start of the page content */
+	nav.navbar.fixed-top {
+		position: sticky !important;
+	}
+
+	#page,
+	#topofscroll,
+	#learnrpage {
+		margin-top: 0 !important;
+	}
+
+	/* '#topofscroll' is to get a higher specificity than the built-in CSS */
+	#topofscroll #learnrpage {
+		padding-top: 0 !important;
+	}
+
+	/*
+		Course list sidepanel
+	*/
+
 	/* List of courses in each semester */
 	.block-fcl__list.collapsible {
 		padding-top: 2px !important;
@@ -6,7 +33,7 @@ body.padding-margin {
 
 	/* Courses list */
 	.block_filtered_course_list .card-body {
-		padding: 5px 10px 0 0 !important;
+		padding: 5px 5px 0 0 !important;
 	}
 
 	/* Fix egregious margins for paragraphs */
@@ -20,9 +47,9 @@ body.padding-margin {
 
 		/* Header of a forum post. 'header.header' is to get a higher specificity than the built-in CSS */
 		header.header {
-			margin-bottom: 0px !important;
 			padding: 5px !important;
-			
+
+			/* Wrapper for the second line of the post header */
 			.mb-3 {
 				margin-bottom: 0 !important;
 			}
@@ -30,12 +57,12 @@ body.padding-margin {
 
 		/* Padding to the right of a forum post */
 		.body-content-container .author-groups-container {
-			width: 20px !important;
+			width: 1em !important;
 		}
 
 		/* 'Reply' and 'direct link' buttons */
 		.post-actions a {
-			padding: 0 0 2px 15px !important;
+			padding: 0 0 0 1em !important;
 		}
 	}
 
@@ -46,60 +73,87 @@ body.padding-margin {
 
 	/* The header of a sidebar. Contains only the 'close' button */
 	.drawerheader {
-		height: 30px !important;
-		padding-top: 5px !important;
+		height: fit-content !important;
+
+		> button {
+			margin-top: 0;
+		}
 	}
 
-	/* The content of a sidebar */
+	/* The content of a sidebar (the original value is bad after the change from the previous block) */
 	.drawercontent {
-		/* calc(100% - .drawerheader { height }) */
-		height: calc(100% - 30px) !important;
+		height: 100% !important;
 	}
 
-	#course-index {
-		/* A sublist item in the right-side-bar */
-		.courseindex-item-content .courseindex-item {
-			padding: 1px 0 !important;
+	/* Course minimap sidepanel */
+	.drawer-left #course-index {
+		> .courseindex-section {
+			margin-bottom: 0.75em !important;
+			
+			> .courseindex-section-title {
+				padding: 0 2px 0 0 !important;
+			}
+
+			> .courseindex-item-content .courseindex-item {
+				padding: 1px 1rem !important;
+
+				> .completioninfo, > .courseindex-cmicon-container {
+					min-width: 1.25em;
+
+					.icon.fa {
+						margin: 0;
+					}
+				}
+			}
 		}
-
-		/* A sublist title in the right-side-bar */
-		.courseindex-section-title .courseindex-item {
-			padding: 3px 2px !important;
-		}
-
-		/* A sublist container in the right-side-bar */
-		.courseindex-section {
-			margin-bottom: 5px !important;
-		}
-	}
-
-	/* The container of an item in a 'course activity' list */
-	.activity-wrapper {
-		padding: 0 !important;
-	}
-
-	/* An item in a 'course activity' list */
-	.activity-item {
-		padding: 5px !important;
 	}
 
 	/*
-		Margins fix: top header can hide content
+		Main content
+		'#topofscroll' is to get a higher specificity than the built-in CSS
 	*/
 
-	nav.navbar.fixed-top {
-		position: sticky !important;
+	#topofscroll {
+		/* A section in the main content */
+		.topics > .section {
+			padding-block: 0 !important;
+		}
+
+		/* The container of an item in a 'course activity' list */
+		.activity-wrapper {
+			padding: 0 !important;
+		}
+
+		/* An item in a 'course activity' list */
+		.activity-item {
+			padding: 0.4em !important;
+		}
 	}
 
-	#page,
-	#topofscroll,
-	#learnrpage {
-		margin-top: 0 !important;
+	/*
+		Main content, when a sidebar is open
+	*/
+
+	#page.show-drawer-right {
+		:is(
+			#page-header,
+			.secondary-navigation,
+			div[role="main"],
+			.topics > .section
+			) {
+			padding-right: 0.5em;
+		}
 	}
 
-	/* '#topofscroll' is to get a higher specificity than the built-in CSS */
-	#topofscroll #learnrpage {
-		padding-top: 2px !important;
+	#page.show-drawer-left {
+		:is(
+			#page-header,
+			.secondary-navigation,
+			div[role="main"],
+			.topics > .section
+			) {
+			padding-left: 0.5em;
+		}
 	}
 
 	/*

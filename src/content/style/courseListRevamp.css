@@ -42,7 +42,7 @@ body.course-list-revamp {
 		}
 	}
 
-	/* courses sidepanel (leftside in RTL) */
+	/* Courses sidepanel */
 	.drawer-right {
 		max-width: var(--courses-sidepanel-width) !important;
 		width: var(--courses-sidepanel-width) !important;
@@ -60,7 +60,7 @@ body.course-list-revamp {
 		}
 	}
 
-	/* course minimap sidepanel (rightside in RTL) */
+	/* Course minimap sidepanel */
 	.drawer-left {
 		max-width: var(--minimap-sidepanel-width) !important;
 		width: var(--minimap-sidepanel-width) !important;
