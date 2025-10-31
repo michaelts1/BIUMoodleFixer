@@ -34,24 +34,32 @@ export function restoreOldIcons() {
 
 	let css = ''
 	for (const [identifier, newSrc] of Object.entries(fixedIconsMap)) {
-		/* The `src` attribute is how we detect the type of the icon. They keyword will either be
-			immediately after the common prefix, or it will be in the middle of the URL, in which
-			case it will be immediately followed by a question mark. */
-		const selector =
-			':is(.icon, .activityicon)'
-			+ `:is([src^="${ICON_URL_PREFIX}/${identifier}/"], [src^="${ICON_URL_PREFIX}"][src*="/${identifier}?"])`
+		/* The `src` attribute is how we detect the type of the icon. They keyword will be either:
+			1. Immediately after the common prefix (appears in the course minimap side menu),
+			2. In the middle of the URL, in which case it will be immediately followed by a
+				question mark (appears in the main content area, including titles of resource pages),
+			3. At the very end of the URL (appears in the body of resource pages).
+
+			("resource page" refers to the page opened by "opening in a new tab" a resource, such as an assignment).
+		*/
+		const iconSelector =
+			':is(.icon, .activityicon):is('
+			+ `[src^="${ICON_URL_PREFIX}/${identifier}/"],`
+			+ `[src^="${ICON_URL_PREFIX}"][src*="/${identifier}?"],`
+			+ `[src^="${ICON_URL_PREFIX}"][src$="/${identifier}"]`
+			+ ')'
 
 		// The first block applies to the icon itself, and the second block applies to its parent
-		const iterationCSS = `
-	${selector} {
+		const iconCSS = `
+	${iconSelector} {
 		content: url("${newSrc}") !important; /* Replace icon */
 		filter: none !important; /* Disable black-only filter */
 	}
-	:has(> :is(${selector})) {
+	:has(> :is(${iconSelector})) {
 		background: none !important;
 	}`
 
-		css += iterationCSS
+		css += iconCSS
 	}
 
 	const styleEl = document.createElement('style')
