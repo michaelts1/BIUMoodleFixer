@@ -1,7 +1,12 @@
 import { $m, log } from '../utils'
 
+const COURSE_LIST_REVAMP_CLASS = 'course-list-revamp'
+
 export function courseListRevamp() {
-	document.body.classList.add('course-list-revamp')
+	// Avoid running twice on the same page
+	if (document.body.classList.contains(COURSE_LIST_REVAMP_CLASS)) return
+
+	document.body.classList.add(COURSE_LIST_REVAMP_CLASS)
 
 	const courseLinks = $m<HTMLElement>('.block-fcl__list__item--course a')
 	for (const courseLink of courseLinks) {
