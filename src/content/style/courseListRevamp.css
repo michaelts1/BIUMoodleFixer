@@ -34,12 +34,14 @@ body.course-list-revamp {
 			display: grid;
 			/* Grid: 24px for icon, min-content for course number and the rest for the course name */
 			grid-template: "a b c" 100% / 24px auto min-content;
+			/* Use full width, instead of limiting to 12em*/
+			width: 100%;
 		}
 
-		/* Usually holds the course number in the link */
-		.block-fcl__list__link::after {
-			content: none !important;
-		}
+		/* The course number is kept in a ::before pesudoelement */
+		.block-fcl__list__link::before { content: none !important; }
+		/* Clear ::after as well to be safe */
+		.block-fcl__list__link::after { content: none !important; }
 	}
 
 	/* Courses sidepanel */
