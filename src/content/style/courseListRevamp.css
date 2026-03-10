@@ -32,8 +32,8 @@ body.course-list-revamp {
 		/* The link to a course */
 		.block-fcl__list__link {
 			display: grid;
-			/* Grid: 24px for icon, min-content for course number and the rest for the course name */
-			grid-template: "a b c" 100% / 24px auto min-content;
+			/* Grid: 24px for icon, max-content for course number and the rest for the course name */
+			grid-template: "a b c" 100% / 24px auto max-content;
 			/* Use full width, instead of limiting to 12em*/
 			width: 100%;
 		}
