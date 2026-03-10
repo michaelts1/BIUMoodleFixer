@@ -25,7 +25,7 @@ async function loadSettings() {
 	const settings = await getSettings()
 	for (const settingInput of ($m('.option input') as NodeListOf<HTMLInputElement>)) {
 		const key = settingInput.dataset.setting as string
-		settingInput.checked = settings[key]
+		settingInput.checked = settings[key] as boolean
 		settingInput.addEventListener('change', updateSetting)
 	}
 }
